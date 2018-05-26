@@ -4,6 +4,8 @@
 
 SDL_Rect item;
 SDL_Surface* item_life;
+SDL_Surface* item_shield;
+SDL_Surface* item_player_speed;
 bool item_exist = false;
 
 void menu()
@@ -408,8 +410,8 @@ bool load_files()
 
         //item 관련 아이콘추가
         item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
-//        item_shield = SDL_LoadBMP("assets/shield.bmp");
-//        item_player_speed = SDL_LoadBMP("assets/playerspeed.bmp")
+        item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
+        item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
 
 
 	if (background == NULL)
@@ -443,8 +445,9 @@ int item_make()
 
 {
 	item;//header파일에 SDL_Rect으로 선언되어 있음.
-	item.x = SCREEN_WIDTH/2;
-	item.y = 20;
+	item.x = BALL_SIZE / 2 + rand() % (SCREEN_WIDTH - BALL_SIZE / 2);
+//SCREEN_WIDTH/2;
+	item.y = 10;
 	item.w = item.h = BALL_SIZE;
 
         int random;
@@ -604,19 +607,20 @@ void main_game(int selector, int mode)//난이도 선택 변수
                 else item_check = -1;
 		if((score % 10) == 0  && (item_check == 0)){//임의의 점수마다 아이템을 생성한다.
                   
-
 			item_num = item_make();
- 			if(item_num !=0) {//라이프 증가 아이템, 인게임 테스트 위해서 !=0으로 설정해 놓은것임.
-                              item_num = 1;
-			} //아이템의 위치를 정해주고, 랜덤값을 return 받는다.
 	
                         item_exist = true;
 
 	}
 			
-
+		  //item_num별로 다른 아이템 아이콘을 출력한다.
 		   if(item_num == 1)
 			   apply_surface(item.x, item.y, item_life, screen);
+                   else if(item_num ==2)
+			   apply_surface(item.x, item.y, item_shield, screen);
+                   else if(item_num ==3 || item_num ==4)
+			   apply_surface(item.x, item.y, item_player_speed, screen);
+
 
 		}
 
