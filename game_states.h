@@ -34,6 +34,14 @@ extern SDL_Surface* item_shield;//item shield 아이콘
 extern SDL_Surface* item_player_speed;//item 플레이어 속도 아이콘
 extern SDL_Surface* heart;
 extern SDL_Surface* enemy_heart;
+extern SDL_Surface* item_life;
+extern SDL_Surface* item_life;
+extern SDL_Surface* item_life;
+extern SDL_Surface* item_life;
+extern SDL_Surface* item_life;
+extern SDL_Surface* item_life;
+
+
 
 extern SDL_Event event;
 extern TTF_Font *font;
