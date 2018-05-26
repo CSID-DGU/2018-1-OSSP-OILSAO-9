@@ -404,8 +404,8 @@ bool load_files()
 
         //item 관련 아이콘추가
         item_heart = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
-        item_shield = SDL_LoadBMP("assets/shield.bmp");
-        item_player_speed = SDL_LoadBMP("assets/playerspeed.bmp")
+//        item_shield = SDL_LoadBMP("assets/shield.bmp");
+//        item_player_speed = SDL_LoadBMP("assets/playerspeed.bmp")
 
 
 	if (background == NULL)
@@ -438,10 +438,11 @@ void clean_up()
 int item_make()
 
 {
-	SDL_Rect item;
+	item;//header파일에 SDL_Rect으로 선언되어 있음.
 	item.x = SCREEN_WIDTH/2;
 	item.y = SEREEN_HEIGHT; 
 	item.w = item.h = BALL_SIZE;
+
         int random;
         srand(time(NULL));
         random = rand()%100+1;
@@ -490,6 +491,8 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	int frames = 0;
 	int fps_calc_timer = SDL_GetTicks();
 	int score = 0;
+
+        int item_num = 0;
 
 	int randomball[MAX_BALLS]; // 떨어지는 볼의 속도를 랜덤하게 조정하기 위해 선언한 배열
 
@@ -586,9 +589,12 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			apply_surface(580, 20, heart, screen);
 		}
 		
-		if(SDL_GetTicks() % 30000 == 0){
+
+		if(SDL_GetTicks() % 30000 == 0){//랜덤시간으로 아이템을 생성해준다.
 			
-			item_make();
+			item_num = item_make();//아이템의 위치를 정해주고, 랜던값을 return 받는다.
+                        if(itme_num ==1 || item_num ==2 || item_num == 3 || item_num ==4) {//라이프 증가 아이템, 인게임 테스트 위해서 1,2,3,4로 설정해 놓은것임.
+                         apply_surface(item.x, item.y, item_life, screen);
 			
 		}
 
@@ -616,9 +622,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			player_rect2.w = PLAYER_WIDTH;
 			player_rect2.h = PLAYER_HEIGHT;
 			
-			if(intersects(item, player_rect){
+                     /*
+			if(intersects(item, player_rect){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1반환.
 				make_item_icon();
 			}
+                     */
 			if (intersects(balls[i], player_rect) && Die_Count == 0)
 			{
 				life--;

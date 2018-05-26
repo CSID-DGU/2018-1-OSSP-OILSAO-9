@@ -40,7 +40,7 @@ extern TTF_Font *font;
 extern TTF_Font *font2;
 
 extern SDL_Rect balls[MAX_BALLS];
-extern SEL_Rect item;//item에 대한 위치를 지정하기 위함.
+extern SDL_Rect item;//item에 대한 위치를 지정하기 위함.
 
 extern SDL_Color textColor;
 
