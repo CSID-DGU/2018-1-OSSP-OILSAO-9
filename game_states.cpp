@@ -402,6 +402,12 @@ bool load_files()
 	heart = SDL_LoadBMP("assets/heart.bmp");
 	enemy_heart = SDL_LoadBMP("assets/enemy_heart.bmp");
 
+        //item 관련 아이콘추가
+        item_heart = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
+        item_shield = SDL_LoadBMP("assets/shield.bmp");
+        item_player_speed = SDL_LoadBMP("assets/playerspeed.bmp")
+
+
 	if (background == NULL)
 	{
 		return false;
@@ -428,14 +434,15 @@ void clean_up()
 	SDL_Quit();
 }
 
+//아이템 랜덤으로 생성하는 함수
 int item_make()
 {
         int random;
         srand(time(NULL));
-        random = rand()%100;
+        random = rand()%100+1;
 
-        if(random >=0 && random <20) return 1; // 라이프 증가 아이템 생성
-
+        if(random >0 && random <10) return 1; // 라이프 증가 아이템 생성
+       
 
 }
 
