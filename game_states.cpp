@@ -439,8 +439,9 @@ int item_make()
 
 {
 	SDL_Rect item;
-	item.x = SCREEN_WIDTH/2
-	item.y = SEREEN_HEIGHT 
+	item.x = SCREEN_WIDTH/2;
+	item.y = SEREEN_HEIGHT; 
+	item.w = item.h = BALL_SIZE;
         int random;
         srand(time(NULL));
         random = rand()%100+1;
@@ -584,6 +585,12 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		else if (life == 1) {
 			apply_surface(580, 20, heart, screen);
 		}
+		
+		if(SDL_GetTicks() % 30000 == 0){
+			
+			item_make();
+			
+		}
 
 		for (i = 0; i < MAX_BALLS; i++)
 		{
@@ -608,6 +615,10 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			player_rect2.y = player2_position_y - PLAYER_HEIGHT / 2;
 			player_rect2.w = PLAYER_WIDTH;
 			player_rect2.h = PLAYER_HEIGHT;
+			
+			if(intersects(item, player_rect){
+				make_item_icon();
+			}
 			if (intersects(balls[i], player_rect) && Die_Count == 0)
 			{
 				life--;
