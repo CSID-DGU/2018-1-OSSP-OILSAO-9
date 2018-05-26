@@ -443,14 +443,19 @@ int item_make()
 	item.y = SEREEN_HEIGHT 
         int random;
         srand(time(NULL));
-        random = rand()%100;
+        random = rand()%100+1;
 
-        if(random >=0 && random <10) return 1; // 라이프 증가 아이템 생성
-	else if(random >=11 && random <25) return 2; // 쉴드
-	//else if(random >=26 && random <) return 3; // 근방의 공 제거
-	//else if(random >= && random <) return 4; // 공 크기 증가
-	//else if(random >= && random <) return 5; // 공 개수 증가
-	else if(random >=85 && random <99) return 6; // 플레이어 속도 증가
+        //item1
+        if(random >0 && random <=10) return 1; // 라이프 증가 아이템 생성
+	else if(random >10 && random <=25) return 2; // 쉴드 아이템
+        else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
+        else if(tandom >35 && random <=50) return 4; // 플레이어 속도 감소
+        
+        //item2
+	else if(random >50 && random <=60) return 5; // 공 크기 증가
+	else if(random >60 && random <=70) return 6; // 공 크기 감소
+	else if(random >70 && random <=90) return 7; // 공 속도 증가
+        else if(random >90 && random <=100) return 8; // 공 속도 감소
 
 
 }
