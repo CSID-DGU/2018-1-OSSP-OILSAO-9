@@ -403,7 +403,7 @@ bool load_files()
 	enemy_heart = SDL_LoadBMP("assets/enemy_heart.bmp");
 
         //item 관련 아이콘추가
-        item_heart = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
+        item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
 //        item_shield = SDL_LoadBMP("assets/shield.bmp");
 //        item_player_speed = SDL_LoadBMP("assets/playerspeed.bmp")
 
@@ -593,7 +593,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		if(SDL_GetTicks() % 30000 == 0){//랜덤시간으로 아이템을 생성해준다.
 			
 			item_num = item_make();//아이템의 위치를 정해주고, 랜던값을 return 받는다.
-                        if(itme_num ==1 || item_num ==2 || item_num == 3 || item_num ==4) {//라이프 증가 아이템, 인게임 테스트 위해서 1,2,3,4로 설정해 놓은것임.
+                        if(item_num ==1 || item_num ==2 || item_num == 3 || item_num ==4) {//라이프 증가 아이템, 인게임 테스트 위해서 1,2,3,4로 설정해 놓은것임.
                          apply_surface(item.x, item.y, item_life, screen);
 			
 		}
