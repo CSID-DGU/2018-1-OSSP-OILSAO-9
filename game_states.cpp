@@ -4,6 +4,7 @@
 
 SDL_Rect item;
 SDL_Surface* item_life;
+bool item_exist = false;
 
 void menu()
 {
@@ -443,7 +444,7 @@ int item_make()
 {
 	item;//header파일에 SDL_Rect으로 선언되어 있음.
 	item.x = SCREEN_WIDTH/2;
-	item.y = SCREEN_HEIGHT; 
+	item.y = 20;
 	item.w = item.h = BALL_SIZE;
 
         int random;
@@ -496,6 +497,9 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	int score = 0;
 
         int item_num = 0;
+	int item_check;
+        int time2 = SDL_GetTicks();
+        int random2 = 0;
 
 	int randomball[MAX_BALLS]; // 떨어지는 볼의 속도를 랜덤하게 조정하기 위해 선언한 배열
 
@@ -513,7 +517,6 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			randomball[i] = (double)rand() / RAND_MAX * (level - 1) + BALL_VELOCITY; // 초기 속도와 레벨 사이의 난수 생성
 		}
 
-
 		fps_timer = SDL_GetTicks();
 		if (SDL_GetTicks() - start_time > 1)
 		{
@@ -522,6 +525,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			{
 				balls[i].y += randomball[i];//level증가를 위해서 기존 값에 level을 곱해줌
 			}
+			item.y+= 1;//item.y 위치 1씩 추가하여 이동
 		}
 		if (current_balls < MAX_BALLS)
 		{
@@ -595,24 +599,29 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 		if(SDL_GetTicks()-time2 > 1){
 		time2 = SDL_GetTicks();
+              
+                if(item_exist == false) item_check =0;
+                else item_check = -1;
+		if((score % 10) == 0  && (item_check == 0)){//임의의 점수마다 아이템을 생성한다.
+                  
 
-		if(score == 100){//랜덤시간으로 아이템을 생성해준다.
-
-		
-			random2 = (double)rand() / RAND_MAX * (level - 1) + BALL_VELOCITY;
 			item_num = item_make();
- 			if(item_num ==1 || item_num ==2 || item_num == 3 || item_num ==4) {//라이프 증가 아이템, 인게임 테스트 위해서 1,2,3,4로 설정해 놓은것임.
-                         apply_surface(item.x, item.y, item_life, screen);
+ 			if(item_num !=0) {//라이프 증가 아이템, 인게임 테스트 위해서 !=0으로 설정해 놓은것임.
+                              item_num = 1;
 			} //아이템의 위치를 정해주고, 랜덤값을 return 받는다.
 	
-                        
-			item.y+= random2;
+                        item_exist = true;
 
 	}
 			
-		
+
+		   if(item_num == 1)
+			   apply_surface(item.x, item.y, item_life, screen);
 
 		}
+
+
+		if (item.y > SCREEN_HEIGHT) item_exist = false;
 
 		for (i = 0; i < MAX_BALLS; i++)
 		{
