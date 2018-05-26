@@ -440,7 +440,7 @@ int item_make()
 {
 	item;//header파일에 SDL_Rect으로 선언되어 있음.
 	item.x = SCREEN_WIDTH/2;
-	item.y = SEREEN_HEIGHT; 
+	item.y = SCREEN_HEIGHT; 
 	item.w = item.h = BALL_SIZE;
 
         int random;
@@ -451,7 +451,7 @@ int item_make()
         if(random >0 && random <=10) return 1; // 라이프 증가 아이템 생성
 	else if(random >10 && random <=25) return 2; // 쉴드 아이템
         else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
-        else if(tandom >35 && random <=50) return 4; // 플레이어 속도 감소
+        else if(random >35 && random <=50) return 4; // 플레이어 속도 감소
         
         //item2
 	else if(random >50 && random <=60) return 5; // 공 크기 증가
@@ -464,7 +464,7 @@ int item_make()
 
        
 
-}
+
 
 
 void main_game(int selector, int mode)//난이도 선택 변수
