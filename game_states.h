@@ -29,6 +29,7 @@ extern SDL_Surface* message2;
 extern SDL_Surface* player;
 extern SDL_Surface* player2;
 extern SDL_Surface* ball;
+extern SDL_Surface* item;//item 아이콘
 extern SDL_Surface* heart;
 extern SDL_Surface* enemy_heart;
 
@@ -37,6 +38,7 @@ extern TTF_Font *font;
 extern TTF_Font *font2;
 
 extern SDL_Rect balls[MAX_BALLS];
+extern SEL_Rect item;//item에 대한 위치를 지정하기 위함.
 
 extern SDL_Color textColor;
 
@@ -53,6 +55,10 @@ int select_level();
 void waiting(bool **isConnect);
 int socketing();
 void waitClient(bool **isConnect);
+
+//item
+int item_make();
+void make_item_icon(int item_num);
 
 //socket variable
 static const int bufsize = 16;
