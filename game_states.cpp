@@ -455,16 +455,16 @@ int item_make()
         random = rand()%100+1;
 
         //item1
-        if(random >0 && random <=10) return 2; // 라이프 증가 아이템 생성
-	else if(random >10 && random <=25) return 2; // 쉴드 아이템
-        else if(random >25 && random <=35) return 2; // 플레이어 속도 증가
-        else if(random >35 && random <=50) return 2; // 플레이어 속도 감소
+        if(random >0 && random <=10) return 3; // 라이프 증가 아이템 생성
+	else if(random >10 && random <=25) return 3; // 쉴드 아이템
+        else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
+        else if(random >35 && random <=50) return 3; // 플레이어 속도 감소
         
         //item2
-	else if(random >50 && random <=60) return 2; // 공 크기 증가
-	else if(random >60 && random <=70) return 2; // 공 크기 감소
-	else if(random >70 && random <=90) return 2; // 공 속도 증가
-        else if(random >90 && random <=100) return 2; // 공 속도 감소
+	else if(random >50 && random <=60) return 3; // 공 크기 증가
+	else if(random >60 && random <=70) return 3; // 공 크기 감소
+	else if(random >70 && random <=90) return 3; // 공 속도 증가
+        else if(random >90 && random <=100) return 3; // 공 속도 감소
 
 
 }
@@ -506,6 +506,9 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 	int shield_check = 0;
 	int shield_start = 0;
+
+	int player_speed_check = 0;
+	int player_speed_start = 0;
 
 
 	int randomball[MAX_BALLS]; // 떨어지는 볼의 속도를 랜덤하게 조정하기 위해 선언한 배열
@@ -571,24 +574,64 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			Die_Count = 0;
 		}
 
-		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2)
+		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2 && player_speed_check == 0)
 		{
 			player_position--;
 		}
 
-		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2)
+		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2 && player_speed_check == 0)
 		{
 			player_position++;
 		}
 
-		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2)
+		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2 && player_speed_check == 0)
 		{
 			player_position_y--;
 		}
 
-		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2)
+		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2 && player_speed_check == 0)
 		{
 			player_position_y++;
+		}//위 아래 이동 추가
+
+		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2 && player_speed_check == 1)
+		{
+			player_position -= 2;
+		}
+
+		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2 && player_speed_check == 1)
+		{
+			player_position += 2;
+		}
+
+		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2 && player_speed_check == 1)
+		{
+			player_position_y -= 2;
+		}
+
+		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2 && player_speed_check == 1)
+		{
+			player_position_y += 2;
+		}//위 아래 이동 추가
+
+		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2 && player_speed_check == -1)
+		{
+			player_position -= 0.5;
+		}
+
+		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2 && player_speed_check == -1)
+		{
+			player_position += 0.5;
+		}
+
+		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2 && player_speed_check == -1)
+		{
+			player_position_y -= 0.5;
+		}
+
+		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2 && player_speed_check == -1)
+		{
+			player_position_y += 0.5;
 		}//위 아래 이동 추가
 
 		apply_surface(0, 0, background, screen);
@@ -667,8 +710,14 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			   //쉴드 함수 --> 쉴드는 플레이어가 ball에 닿아도 일정시간동안은 player의 life가 줄어들지 않게 한다.
 			  //추가로 플레이어가 쉴드인 상태일때의 아이콘을 바꿔주면 좋을것 같다.
 			   }
-       		           else if(item_num ==3 || item_num ==4);
+       		           else if(item_num ==3 || item_num ==4) {
 			   //플레이어 속도 조절 함수
+				int player_speed_random = 0;
+				player_speed_random = rand() % 10 + 1;
+				if(player_speed_random >0 && player_speed_random <6) player_speed_check = 1;
+				else player_speed_check = -1;
+				player_speed_start = SDL_GetTicks();
+			   }
 
 			}
                      
@@ -736,7 +785,8 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		}
 
 		
-		if(SDL_GetTicks()-shield_start >= 1000) shield_check = 0;//쉴드시간 완료하면 shield_check를 0으로 표시.
+		if(SDL_GetTicks() - shield_start >= 1000) shield_check = 0;//쉴드시간 완료하면 shield_check를 0으로 표시.
+		if(SDL_GetTicks() - player_speed_start >= 1500) player_speed_check = 0;
 
 		if (Die_Count == 0 || Die_Count % 2 == 0)
 		{
