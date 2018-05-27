@@ -455,16 +455,16 @@ int item_make()
         random = rand()%100+1;
 
         //item1
-        if(random >0 && random <=10) return 1; // 라이프 증가 아이템 생성
+        if(random >0 && random <=10) return 2; // 라이프 증가 아이템 생성
 	else if(random >10 && random <=25) return 2; // 쉴드 아이템
-        else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
-        else if(random >35 && random <=50) return 4; // 플레이어 속도 감소
+        else if(random >25 && random <=35) return 2; // 플레이어 속도 증가
+        else if(random >35 && random <=50) return 2; // 플레이어 속도 감소
         
         //item2
-	else if(random >50 && random <=60) return 5; // 공 크기 증가
-	else if(random >60 && random <=70) return 6; // 공 크기 감소
-	else if(random >70 && random <=90) return 7; // 공 속도 증가
-        else if(random >90 && random <=100) return 8; // 공 속도 감소
+	else if(random >50 && random <=60) return 2; // 공 크기 증가
+	else if(random >60 && random <=70) return 2; // 공 크기 감소
+	else if(random >70 && random <=90) return 2; // 공 속도 증가
+        else if(random >90 && random <=100) return 2; // 공 속도 감소
 
 
 }
@@ -503,6 +503,10 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	int item_check;
         int time2 = SDL_GetTicks();
         int random2 = 0;
+
+	int shield_check = 0;
+	int shield_start = 0;
+
 
 	int randomball[MAX_BALLS]; // 떨어지는 볼의 속도를 랜덤하게 조정하기 위해 선언한 배열
 
@@ -652,18 +656,23 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			player_rect2.h = PLAYER_HEIGHT;
 			
                      
-			if(intersects(item, player_rect){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1을 반환하여 조건문 안의 코드 실행.
+			if(intersects(item, player_rect)){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1을 반환하여 조건문 안의 코드 실행.
 			// item_num에 따라서 다르게 기능을 실행해야 한다.
-			    if(item_num == 1)
+			    if(item_num == 1);
 			   //라이프 증가 함수
-         	           else if(item_num ==2)
-			   //쉴드 함수
-       		           else if(item_num ==3 || item_num ==4)
+         	           else if(item_num ==2){//쉴드
+				shield_check = 1;
+
+				shield_start = SDL_GetTicks();
+			   //쉴드 함수 --> 쉴드는 플레이어가 ball에 닿아도 일정시간동안은 player의 life가 줄어들지 않게 한다.
+			  //추가로 플레이어가 쉴드인 상태일때의 아이콘을 바꿔주면 좋을것 같다.
+			   }
+       		           else if(item_num ==3 || item_num ==4);
 			   //플레이어 속도 조절 함수
 
 			}
                      
-			if (intersects(balls[i], player_rect) && Die_Count == 0)
+			if (intersects(balls[i], player_rect) && Die_Count == 0 && shield_check == 0)
 			{
 				life--;
 				if (life <= 0) //life소진시 종료
@@ -725,11 +734,21 @@ void main_game(int selector, int mode)//난이도 선택 변수
 				}
 			}
 		}
+
+		
+		if(SDL_GetTicks()-shield_start >= 1000) shield_check = 0;//쉴드시간 완료하면 shield_check를 0으로 표시.
+
 		if (Die_Count == 0 || Die_Count % 2 == 0)
 		{
 			if (Die_Count >= 600) Die_Count = 0;
-			apply_surface(player_position - PLAYER_WIDTH / 2, player_position_y - PLAYER_HEIGHT / 2/*SCREEN_HEIGHT - PLAYER_HEIGHT*/, player, screen);//player표시를 이동에 따라 표시
+			if (shield_check == 0) {
+			   apply_surface(player_position - PLAYER_WIDTH / 2, player_position_y - PLAYER_HEIGHT / 2/*SCREEN_HEIGHT - PLAYER_HEIGHT*/, player, screen);//player표시를 이동에 따라 표시
 			SDL_SetColorKey(player, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
+			}
+			else if(shield_check == 1) {//shield인 상태에서 표시되는 player 아이콘을 다르게 한다.
+			  apply_surface(player_position - PLAYER_WIDTH / 2, player_position_y - PLAYER_HEIGHT / 2/*SCREEN_HEIGHT - PLAYER_HEIGHT*/, heart, screen);//player표시를 이동에 따라 표시
+			  SDL_SetColorKey(player, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
+			}
 		}
 		if (Die_Count > 0) Die_Count++;
 
