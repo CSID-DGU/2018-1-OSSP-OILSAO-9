@@ -412,7 +412,7 @@ bool load_files()
         item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
         item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
         item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
-
+//SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(item_life->format, 255, 255, 255));
 
 	if (background == NULL)
 	{
@@ -601,24 +601,24 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		
 
 		if(SDL_GetTicks()-time2 > 1){
-		time2 = SDL_GetTicks();
+		   time2 = SDL_GetTicks();
               
-                if(item_exist == false) item_check =0;
-                else item_check = -1;
-		if((score % 10) == 0  && (item_check == 0)){//임의의 점수마다 아이템을 생성한다.
+             	   if(item_exist == false) item_check =0;
+             	   else item_check = -1;
+		   if((score % 10) == 0  && (item_check == 0)){//임의의 점수마다 아이템을 생성한다.
                   
 			item_num = item_make();
 	
                         item_exist = true;
 
-	}
+		    }
 			
-		  //item_num별로 다른 아이템 아이콘을 출력한다.
-		   if(item_num == 1)
+		    //item_num별로 다른 아이템 아이콘을 출력한다.
+		    if(item_num == 1)
 			   apply_surface(item.x, item.y, item_life, screen);
-                   else if(item_num ==2)
+                    else if(item_num ==2)
 			   apply_surface(item.x, item.y, item_shield, screen);
-                   else if(item_num ==3 || item_num ==4)
+                    else if(item_num ==3 || item_num ==4)
 			   apply_surface(item.x, item.y, item_player_speed, screen);
 
 
@@ -651,11 +651,18 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			player_rect2.w = PLAYER_WIDTH;
 			player_rect2.h = PLAYER_HEIGHT;
 			
-                     /*
-			if(intersects(item, player_rect){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1반환.
-				make_item_icon();
+                     
+			if(intersects(item, player_rect){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1을 반환하여 조건문 안의 코드 실행.
+			// item_num에 따라서 다르게 기능을 실행해야 한다.
+			    if(item_num == 1)
+			   //라이프 증가 함수
+         	           else if(item_num ==2)
+			   //쉴드 함수
+       		           else if(item_num ==3 || item_num ==4)
+			   //플레이어 속도 조절 함수
+
 			}
-                     */
+                     
 			if (intersects(balls[i], player_rect) && Die_Count == 0)
 			{
 				life--;
