@@ -6,6 +6,8 @@ SDL_Rect item;
 SDL_Surface* item_life;
 SDL_Surface* item_shield;
 SDL_Surface* item_player_speed;
+SDL_Surface* item_ball_size;
+SDL_Surface* item_ball_speed;
 bool item_exist = false;
 const int RANKING_MODE = 3;
 
@@ -755,15 +757,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			   }
 			   else if(item_num ==5 || item_num ==6) {
 			   //공 크기 조절 함수
-				int 
+				ball_size_check = BALL_SIZE;
 			   }
 			   else if(item_num ==7 || item_num ==8) {
 			   //공 속도 조절 함수
-				int ball_speed_random = 0;
-				ball_speed_random = rand() % 10 + 1;
-				if(ball_speed_random >0 && ball_speed_random <6) ball_speed_check = 1;
-				else ball_speed_check = -1;
-				ball_speed_start = SDL_GetTicks();
+				
 			   }
 			}
                      
