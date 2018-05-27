@@ -7,6 +7,7 @@ SDL_Surface* item_life;
 SDL_Surface* item_shield;
 SDL_Surface* item_player_speed;
 bool item_exist = false;
+const int RANKING_MODE = 3;
 
 void menu()
 {
@@ -26,6 +27,10 @@ void menu()
 		case MULTI_MODE:
 			mode = socketing();
 			break;
+		case RANKING_MODE:
+			mode = ranking();
+			break;
+
 		default:
 			break;
 		}
@@ -40,14 +45,14 @@ int select_mode()
 	{
 		if (SDL_PollEvent(&event))
 		{
-			message = TTF_RenderText_Solid(font, "Press space to start, esc key to quit", textColor);
 			apply_surface(0, 0, background, screen);
 			title_message = TTF_RenderText_Solid(font2, "Awesome Dodge", textColor);
 			apply_surface((640 - title_message->w) / 2, 80, title_message, screen);
+			message = TTF_RenderText_Solid(font, "Press space to start, esc key to quit", textColor);
 			apply_surface((640 - message->w) / 2, 480 / 2 - message->h, message, screen);
-			message = TTF_RenderText_Solid(font, "Single         Multi", textColor);
+			message = TTF_RenderText_Solid(font, "Single     Multi        Ranking", textColor);
 			apply_surface((640 - message->w) / 2, 480 / 2 + message->h, message, screen);
-			message2 = TTF_RenderText_Solid(font, "Single         ", textColor);
+			message2 = TTF_RenderText_Solid(font, "Single     ", textColor);
 			int tmp = message2->w;
 			message2 = TTF_RenderText_Solid(font, ">", textColor);
 			apply_surface((640 - message->w) / 2 - 8 + mode * tmp, 480 / 2 + message->h, message2, screen);
@@ -58,7 +63,7 @@ int select_mode()
 				{
 				case SDLK_RIGHT:
 				{
-					if (mode >= 1) break;
+					if (mode >= 2) break;
 					mode++;
 					break;
 				}
@@ -73,6 +78,7 @@ int select_mode()
 					message = NULL;
 					if (mode == 1) return MULTI_MODE;
 					else if (mode == 0) return SINGLE_MODE;
+					else if (mode == 2) return RANKING_MODE;
 					break;
 				}
 				case SDLK_ESCAPE://esc 키가 눌리면 종료
@@ -150,6 +156,18 @@ int select_level()
 		}
 	}
 }
+
+
+int ranking() 
+{
+
+
+
+
+
+
+}
+
 
 int socketing()
 {
