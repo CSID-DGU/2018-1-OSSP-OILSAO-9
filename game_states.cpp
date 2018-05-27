@@ -9,6 +9,8 @@ SDL_Surface* item_player_speed;
 bool item_exist = false;
 const int RANKING_MODE = 3;
 
+int ranking();
+
 void menu()
 {
 	int mode = INITIAL_MODE;
@@ -163,7 +165,7 @@ int ranking()
 
 
 
-
+return 1;
 
 
 }
@@ -941,6 +943,8 @@ void game_over(int level, int score, int state)
 {
 	std::stringstream caption;
 	std::stringstream caption2;
+	std::stringstream caption3;
+	std::stringstream temp;
 	switch (state)
 	{
 		//SINGLE_MODE
@@ -954,6 +958,19 @@ void game_over(int level, int score, int state)
 		caption2 << "Score is : " << score;
 		message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
 		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
+		caption3 << "If you want to save score, press space bar";
+		message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
+		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+		if(SDL_PollEvent(&event)){
+			switch(event.type) {
+				case SDLK_SPACE:
+					temp <<"space bar ok";
+					message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+					//이름 입력받는 함수
+					//입력받은 이름으로 db에 저장하는 함수 실
+			}
+		}
 		SDL_Flip(screen);
 		break;
 		// 1 == WIN_CASE
