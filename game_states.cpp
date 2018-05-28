@@ -747,7 +747,52 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			if (intersects(balls[i], player_rect) && Die_Count == 0 && shield_check == 0)
 			{
 				life--;
-				if (life <= 0) //life소진시 종료
+				if(life <=0 && mode == SINGLE_MODE) {
+					std::stringstream caption;
+					std::stringstream caption2;
+					std::stringstream caption3;
+					std::stringstream temp;
+					switch (mode)
+					{
+						//SINGLE_MODE
+					case SINGLE_MODE:
+					{
+						apply_surface(0, 0, background, screen);
+						message = TTF_RenderText_Solid(font, "Game over", textColor);
+						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
+						caption << "Level : " << level;
+						message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
+						caption2 << "Score is : " << score;
+						message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
+						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
+						caption3 << "If you want to save score, press space bar";
+						message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
+						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+						//SDL_Flip(screen);
+							if(SDL_PollEvent(&event)) {
+							if(event.type == SDL_KEYDOWN) {
+								switch(event.key.keysym.sym) {
+									case SDLK_SPACE: 
+									{
+										temp <<"space bar ok";
+										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
+										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+										SDL_Flip(screen);
+									}
+									case SDLK_DOWN: 
+									{ quit = true;
+									}
+								}
+							}
+							}
+					
+			
+					}
+					}
+
+				}
+				else if (life <= 0) //life소진시 종료
 				{
 					if (enemy_life != 0)
 						switch (mode)
@@ -790,16 +835,48 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						close(server);
 						close(client);
 
-					if(mode == SINGLE_MODE)
+/*					if(mode == SINGLE_MODE)
 					{
+						std::stringstream temp;
 						game_over(level, score, SINGLE_MODE);
+
+								if(SDL_PollEvent(&event)){
+									switch(event.type) {
+									case SDLK_SPACE:
+										temp <<"space bar ok";
+										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
+										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+					//이름 입력받는 함수
+					//입력받은 이름으로 db에 저장하는 함수 실
+									}
+								}
+*/
+
 					}
 					else
 					{
 						game_over(level, score, LOSER);// 2 == LOSE_CASE
 					}
-					quit = true;
+					if(mode !=SINGLE_MODE)
+						quit = true;
+/*
+					else if(mode == SINGLE_MODE) {
+						std::stringstream temp;
+						if(SDL_PollEvent(&event)){
+							if(event.key.keysym.sym == SDLK_SPACE) {
+										temp <<"space bar ok";
+										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
+										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+										quit = true;
+					//이름 입력받는 함수
+					//입력받은 이름으로 db에 저장하는 함수 실
+									}
+								}
+
+					}
+*/
 				}
+
 				else //life가 남아있으면 공 초기화후 계속
 				{
 					Die_Count++;
@@ -961,16 +1038,6 @@ void game_over(int level, int score, int state)
 		caption3 << "If you want to save score, press space bar";
 		message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
 		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-		if(SDL_PollEvent(&event)){
-			switch(event.type) {
-				case SDLK_SPACE:
-					temp <<"space bar ok";
-					message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
-					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-					//이름 입력받는 함수
-					//입력받은 이름으로 db에 저장하는 함수 실
-			}
-		}
 		SDL_Flip(screen);
 		break;
 		// 1 == WIN_CASE
@@ -988,17 +1055,24 @@ void game_over(int level, int score, int state)
 		SDL_Flip(screen);
 		break;
 	}
-
-	while (true)
-	{
-		if (SDL_PollEvent(&event))
+/*
+	if(state !=SINGLE_MODE) {
+		while (true)
 		{
-			if (event.type == SDL_QUIT || 
-				(event.type == SDL_KEYDOWN && 
-				(event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_ESCAPE)))
+			if (SDL_PollEvent(&event))
 			{
-				break;
+				if (event.type == SDL_QUIT || 
+					(event.type == SDL_KEYDOWN && 
+					(event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_ESCAPE)))
+				{
+					break;
+				}
 			}
 		}
 	}
+	else if(state == SINGLE_MODE) {;
+
+
+	}
+*/
 }
