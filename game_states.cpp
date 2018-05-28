@@ -482,15 +482,15 @@ int item_make()
 
         //item1
         if(random >0 && random <=10) return 1; // 라이프 증가 아이템 생성
-	else if(random >10 && random <=25) return 1; // 쉴드 아이템
-        else if(random >25 && random <=35) return 1; // 플레이어 속도 증가
-        else if(random >35 && random <=50) return 1; // 플레이어 속도 감소
+	else if(random >10 && random <=25) return 2; // 쉴드 아이템
+        else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
+        else if(random >35 && random <=50) return 4; // 플레이어 속도 감소
         
         //item2
-	else if(random >50 && random <=60) return 1; // 공 크기 증가
-	else if(random >60 && random <=70) return 1; // 공 크기 감소
-	else if(random >70 && random <=90) return 1; // 공 속도 증가
-        else if(random >90 && random <=100) return 1; // 공 속도 감소
+	else if(random >50 && random <=60) return 5; // 공 크기 증가
+	else if(random >60 && random <=70) return 6; // 공 크기 감소
+	else if(random >70 && random <=90) return 7; // 공 속도 증가
+        else if(random >90 && random <=100) return 8; // 공 속도 감소
 }
 
        
