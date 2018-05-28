@@ -558,6 +558,10 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		for (i = 0; i < current_balls; i++)
 		{
 			randomball[i] = (double)rand() / RAND_MAX * (level - 1) + BALL_VELOCITY; // 초기 속도와 레벨 사이의 난수 생성
+			if(ball_speed_check == 1)
+				randomball[i] *= 2;
+			else if(ball_speed_check == -1)
+				randomball[i] *= 0.5;
 		}
 
 		fps_timer = SDL_GetTicks();
@@ -738,7 +742,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			if(intersects(item, player_rect)){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1을 반환하여 조건문 안의 코드 실행.
 			// item_num에 따라서 다르게 기능을 실행해야 한다.
 				item_exist = false;
-			    if(item_num == 1) life_check = 1;
+			   if(item_num == 1) life_check = 1;
 			   //라이프 증가 함수
          	           else if(item_num ==2){//쉴드
 				shield_check = 1;
@@ -761,7 +765,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			   }
 			   else if(item_num ==7 || item_num ==8) {
 			   //공 속도 조절 함수
-				
+				int ball_speed_random = 0;
+				ball_speed_random = rand() % 10 + 1;
+				if(ball_speed_random >0 && ball_speed_random <6) ball_speed_check = 1;
+				else ball_speed_check = -1;
+				ball_speed_start = SDL_GetTicks();
 			   }
 			}
                      
@@ -867,7 +875,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			}
 
 		}
-
+		if(SDL_GetTicks() - ball_speed_start >= 1500) ball_speed_check = 0;
 
 
 		std::stringstream caption, caption2;
