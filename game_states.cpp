@@ -434,9 +434,9 @@ bool load_files()
         item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하기
 	
 	//item2 관련 아이콘추가
-	/* item_del = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기 */
-	item_size = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
-	item_speed = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
+	/* item_ball_del = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기 */
+	item_ball_size = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
+	item_ball_speed = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
 
 	//SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(item_life->format, 255, 255, 255));
 
@@ -705,9 +705,9 @@ void main_game(int selector, int mode)//난이도 선택 변수
                     else if(item_num ==3 || item_num ==4)
 			   apply_surface(item.x, item.y, item_player_speed, screen);
 		    else if(item_num ==5 || item_num ==6)
-			   apply_surface(item.x, item.y, item_size, screen);
+			   apply_surface(item.x, item.y, item_ball_size, screen);
 		    else if(item_num ==7 || item_num ==8)
-			   apply_surface(item.x, item.y, item_speed, screen);
+			   apply_surface(item.x, item.y, item_ball_speed, screen);
 
 		}
 
