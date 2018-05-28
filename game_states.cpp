@@ -761,7 +761,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			   }
 			   else if(item_num ==5 || item_num ==6) {
 			   //공 크기 조절 함수
-				ball_size_check = BALL_SIZE;
+				int ball_size_random = 0;
+				ball_size_random = rand() % 10 + 1;
+				if(ball_size_random >0 && ball_size_random <6) BALL_SIZE = 15;
+				else BALL_SIZE = 5;
+				ball_size_start = SDL_GetTicks();	
 			   }
 			   else if(item_num ==7 || item_num ==8) {
 			   //공 속도 조절 함수
@@ -876,7 +880,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 		}
 		if(SDL_GetTicks() - ball_speed_start >= 1500) ball_speed_check = 0;
-
+		if(SDL_GetTicks() - ball_size_start >= 1500)
+		{
+			BALL_SIZE = 10;
+			ball_size_check = 0;
+		}
 
 		std::stringstream caption, caption2;
 		caption << /* "FPS: " << (int)(frames*1000.0/(SDL_GetTicks() - fps_calc_timer+1)) << */"Score: " << score
