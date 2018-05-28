@@ -752,11 +752,6 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					std::stringstream caption2;
 					std::stringstream caption3;
 					std::stringstream temp;
-					switch (mode)
-					{
-						//SINGLE_MODE
-					case SINGLE_MODE:
-					{
 						apply_surface(0, 0, background, screen);
 						message = TTF_RenderText_Solid(font, "Game over", textColor);
 						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
@@ -769,27 +764,24 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						caption3 << "If you want to save score, press space bar";
 						message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
 						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-						//SDL_Flip(screen);
+						SDL_Flip(screen);
 							if(SDL_PollEvent(&event)) {
 							if(event.type == SDL_KEYDOWN) {
 								switch(event.key.keysym.sym) {
 									case SDLK_SPACE: 
-									{
 										temp <<"space bar ok";
 										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
 										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-										SDL_Flip(screen);
-									}
-									case SDLK_DOWN: 
-									{ quit = true;
-									}
+									//	SDL_Flip(screen);
+									case SDLK_DOWN: quit = true;
 								}
 							}
 							}
-					
-			
-					}
-					}
+
+//1.싱그모드가 종료하면 결과와 press the space bar를 추력
+//2.스페이스 바를 누르면 랭킹 저장 화면으로 전환
+//3.랭킹 저장 화면에서 아이디를 10글자 이하로 입력받는다
+//4.입력받은 아이디와 score을 받아서 db에 저장한다.
 
 				}
 				else if (life <= 0) //life소진시 종료
@@ -875,7 +867,6 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 					}
 */
-				}
 
 				else //life가 남아있으면 공 초기화후 계속
 				{
