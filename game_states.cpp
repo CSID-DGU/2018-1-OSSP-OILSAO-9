@@ -10,6 +10,7 @@ bool item_exist = false;
 const int RANKING_MODE = 3;
 
 int ranking();
+void save_score(int score);
 
 void menu()
 {
@@ -476,15 +477,15 @@ int item_make()
 
         //item1
         if(random >0 && random <=10) return 1; // 라이프 증가 아이템 생성
-	else if(random >10 && random <=25) return 1; // 쉴드 아이템
-        else if(random >25 && random <=35) return 1; // 플레이어 속도 증가
-        else if(random >35 && random <=50) return 1; // 플레이어 속도 감소
+	else if(random >10 && random <=25) return 2; // 쉴드 아이템
+        else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
+        else if(random >35 && random <=50) return 4; // 플레이어 속도 감소
         
         //item2
-	else if(random >50 && random <=60) return 1; // 공 크기 증가
-	else if(random >60 && random <=70) return 1; // 공 크기 감소
-	else if(random >70 && random <=90) return 1; // 공 속도 증가
-        else if(random >90 && random <=100) return 1; // 공 속도 감소
+	else if(random >50 && random <=60) return 5; // 공 크기 증가
+	else if(random >60 && random <=70) return 6; // 공 크기 감소
+	else if(random >70 && random <=90) return 7; // 공 속도 증가
+        else if(random >90 && random <=100) return 8; // 공 속도 감소
 
 
 }
@@ -507,7 +508,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	Uint8 *keystates = NULL;
 	int start_time = SDL_GetTicks();
 	int level = 1 + selector; // level 정의
-	int life = 3; // life 추가
+	int life = 1; // life 추가
 	int enemy_life = 3;
 	int current_balls = 0;
 	int i = 0;
@@ -596,65 +597,46 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			Die_Count = 0;
 		}
 
-		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2 && player_speed_check == 0)
+		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2)
 		{
-			player_position--;
-		}
+			if(player_speed_check == 0)
+				player_position--;
+			else if(player_speed_check == 1)
+				player_position -= 2;
+			else // player_position == -1
+				player_position -= 0.5;
 
+		}
 		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2 && player_speed_check == 0)
 		{
-			player_position++;
+			if(player_speed_check == 0)
+				player_position++;
+			else if(player_speed_check == 1)
+				player_position += 2;
+			else // player_position == -1
+				player_position += 0.5;
 		}
 
 		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2 && player_speed_check == 0)
 		{
-			player_position_y--;
+			if(player_speed_check == 0)
+				player_position_y--;
+			else if(player_speed_check == 1)
+				player_position_y -= 2;
+			else // player_position == -1
+				player_position_y -= 0.5;
 		}
 
 		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2 && player_speed_check == 0)
 		{
-			player_position_y++;
-		}//위 아래 이동 추가
+			if(player_speed_check == 0)
+				player_position_y++;
+			else if(player_speed_check == 1)
+				player_position_y += 2;
+			else // player_position == -1
+				player_position_y += 0.5;
+		}//위 아래 이동 추가 //아이템에 따라서 플레이어 속도 조절함.
 
-		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2 && player_speed_check == 1)
-		{
-			player_position -= 2;
-		}
-
-		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2 && player_speed_check == 1)
-		{
-			player_position += 2;
-		}
-
-		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2 && player_speed_check == 1)
-		{
-			player_position_y -= 2;
-		}
-
-		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2 && player_speed_check == 1)
-		{
-			player_position_y += 2;
-		}//위 아래 이동 추가
-
-		if (keystates[SDLK_LEFT] && player_position > PLAYER_WIDTH / 2 && player_speed_check == -1)
-		{
-			player_position -= 0.5;
-		}
-
-		if (keystates[SDLK_RIGHT] && player_position < SCREEN_WIDTH - PLAYER_WIDTH / 2 && player_speed_check == -1)
-		{
-			player_position += 0.5;
-		}
-
-		if (keystates[SDLK_UP] && player_position_y > PLAYER_HEIGHT / 2 && player_speed_check == -1)
-		{
-			player_position_y -= 0.5;
-		}
-
-		if (keystates[SDLK_DOWN] && player_position_y < SCREEN_HEIGHT - PLAYER_HEIGHT / 2 && player_speed_check == -1)
-		{
-			player_position_y += 0.5;
-		}//위 아래 이동 추가
 
 		apply_surface(0, 0, background, screen);
 		if (life == 3) {
@@ -771,9 +753,15 @@ void main_game(int selector, int mode)//난이도 선택 변수
 							if(event.type == SDL_KEYDOWN) {
 								switch(event.key.keysym.sym) {
 									case SDLK_SPACE: 
+										apply_surface(0, 0, background, screen);//background로 덮음
 										temp <<"space bar ok";
 										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
 										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
+										//출력 완료 확인.
+										//아이디 만드는 함수를 만들어서 출력하기
+										save_score(score);
+										//화면은 출력하지만, 계속  비행기와 ball이 뜨고
+										//출력이 끝나면 바로 창이 메인화면이나 게임화면으로 돌아가는것 고치
 									//	SDL_Flip(screen);
 									case SDLK_DOWN: quit = true;
 								}
@@ -875,6 +863,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 				{
 					Die_Count++;
 				}
+			}
 			}
 		}
 
@@ -1069,4 +1058,25 @@ void game_over(int level, int score, int state)
 
 	}
 */
+}
+
+
+//아이디 출력 창
+void save_score(int score) {
+	std::stringstream caption;
+	std::stringstream caption2;
+	std::stringstream caption3;
+	
+		apply_surface(0, 0, background, screen);
+		message = TTF_RenderText_Solid(font, "Game over", textColor);
+		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
+//		caption << "Level : " << level;
+//		message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+//		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
+		caption2 << "Score is : " << score;
+		message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
+		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
+		SDL_Flip(screen);	
+
+
 }
