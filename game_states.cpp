@@ -432,7 +432,7 @@ bool load_files()
         item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
         item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
         item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
-//SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(item_life->format, 255, 255, 255));
+
 
 	if (background == NULL)
 	{
@@ -683,8 +683,10 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		    }
 			
 		    //item_num별로 다른 아이템 아이콘을 출력한다.
-		    if(item_num == 1)
+		    if(item_num == 1){
 			   apply_surface(item.x, item.y, item_life, screen);
+			   SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(item_life->format, 255, 255, 255));
+		    }
                     else if(item_num ==2)
 			   apply_surface(item.x, item.y, item_shield, screen);
                     else if(item_num ==3 || item_num ==4)
@@ -827,12 +829,13 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						close(server);
 						close(client);
 
-/*					if(mode == SINGLE_MODE)
+					if(mode == SINGLE_MODE)
 					{
 						std::stringstream temp;
 						game_over(level, score, SINGLE_MODE);
 
-								if(SDL_PollEvent(&event)){
+
+/*								if(SDL_PollEvent(&event)){
 									switch(event.type) {
 									case SDLK_SPACE:
 										temp <<"space bar ok";
@@ -851,22 +854,22 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					}
 					if(mode !=SINGLE_MODE)
 						quit = true;
-/*
+
 					else if(mode == SINGLE_MODE) {
 						std::stringstream temp;
 						if(SDL_PollEvent(&event)){
-							if(event.key.keysym.sym == SDLK_SPACE) {
-										temp <<"space bar ok";
-										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
-										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-										quit = true;
-					//이름 입력받는 함수
-					//입력받은 이름으로 db에 저장하는 함수 실
+							switch(event.type) {
+								case SDL_KEYDOWN:
+									if(event.key.keysym.sym == SDLK_SPACE) {
+										 apply_surface(item.x, item.y, item_life, screen);
+										 quit = true;
+										 break;
 									}
-								}
+							}
+						}
 
 					}
-*/
+
 
 				else //life가 남아있으면 공 초기화후 계속
 				{
