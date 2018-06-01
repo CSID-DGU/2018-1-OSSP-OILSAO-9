@@ -10,7 +10,8 @@ bool item_exist = false;
 const int RANKING_MODE = 3;
 
 int ranking();
-void save_score(int score);
+void save_score(int score, int quick_check);
+void make_id();
 
 void menu()
 {
@@ -731,6 +732,8 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			if (intersects(balls[i], player_rect) && Die_Count == 0 && shield_check == 0)
 			{
 				life--;
+
+/*
 				if(life <=0 && mode == SINGLE_MODE) {
 					std::stringstream caption;
 					std::stringstream caption2;
@@ -763,7 +766,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 										//화면은 출력하지만, 계속  비행기와 ball이 뜨고
 										//출력이 끝나면 바로 창이 메인화면이나 게임화면으로 돌아가는것 고치
 									//	SDL_Flip(screen);
-									case SDLK_DOWN: quit = true;
+								//	case SDLK_DOWN: quit = true;
 								}
 							}
 							}
@@ -774,7 +777,9 @@ void main_game(int selector, int mode)//난이도 선택 변수
 //4.입력받은 아이디와 score을 받아서 db에 저장한다.
 
 				}
-				else if (life <= 0) //life소진시 종료
+
+*/
+				if (life <= 0) //life소진시 종료
 				{
 					if (enemy_life != 0)
 						switch (mode)
@@ -817,53 +822,21 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						close(server);
 						close(client);
 
-					if(mode == SINGLE_MODE)
-					{
-						std::stringstream temp;
-						game_over(level, score, SINGLE_MODE);
-
-
-/*								if(SDL_PollEvent(&event)){
-									switch(event.type) {
-									case SDLK_SPACE:
-										temp <<"space bar ok";
-										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
-										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-					//이름 입력받는 함수
-					//입력받은 이름으로 db에 저장하는 함수 실
-									}
-								}
-*/
-
-					}
-					else
-					{
-						game_over(level, score, LOSER);// 2 == LOSE_CASE
-					}
-					if(mode !=SINGLE_MODE)
+					if(mode == MULTI_MODE){
+						game_over(level, score, LOSER);
 						quit = true;
-
-					else if(mode == SINGLE_MODE) {
-						std::stringstream temp;
-						if(SDL_PollEvent(&event)){
-							switch(event.type) {
-								case SDL_KEYDOWN:
-									if(event.key.keysym.sym == SDLK_SPACE) {
-										 apply_surface(item.x, item.y, item_life, screen);
-										 quit = true;
-										 break;
-									}
-							}
-						}
-
+						
 					}
-
-
-				else //life가 남아있으면 공 초기화후 계속
-				{
-					Die_Count++;
-				}
-			}
+					else if(mode == SINGLE_MODE) {
+						game_over(level,score, SINGLE_MODE);
+						quit = true;
+					
+					}
+					else //life가 남아있으면 공 초기화후 계속
+					{
+						Die_Count++;
+					}
+				}//if life<=의 조건문 끝.
 			}
 		}
 
@@ -985,6 +958,71 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			SDL_Delay((1000 / FRAMES_PER_SECOND) - delay);
 		}
 	}
+
+//싱글모드에서 게임이 종료되고, 랭킹에 점수를 저장하기 위한 화면을 구현.
+	if(quit == true && mode == SINGLE_MODE) {
+		int quick_check = 0;
+		save_score(score, quick_check);
+	while(!SDL_PollEvent(&event)) {//입력이 있을때까지 기다린다.
+		;//do nothing
+	}
+	int id_ok_check = 0;
+
+//	if(SDL_PollEvent(&event)) {
+		if(event.type == SDL_KEYDOWN) {
+			switch(event.key.keysym.sym) {
+				case SDLK_SPACE: {//make id 창 출력하게 하기.
+
+				while(id_ok_check == 0) {
+
+/*
+					for(int i=0;i<=10;i++) {
+					std::stringstream caption;
+					string temp = to_string(i);
+					apply_surface(0, 0, background, screen);
+					message = TTF_RenderText_Solid(font, temp.c_str(), textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 4 - message->h, message, screen);
+					SDL_Flip(screen);
+					}
+
+*/
+
+				std::stringstream caption;
+				caption << "make id (id must in 10 alpabet";
+				apply_surface(0, 0, background, screen);
+				message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+				apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
+				SDL_Flip(screen);
+
+				if(event.type == SDL_KEYDOWN) {
+					switch(event.key.keysym.sym) {
+						case SDLK_a:
+							caption << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa";
+							apply_surface(0, 0, background, screen);
+							message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+							apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
+							SDL_Flip(screen);
+							
+
+
+					}
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기
+
+				}
+
+
+				}
+				case SDLK_DOWN: {}
+					
+			}
+		}
+//	}
+
+
+
+	}
+
+
 }
 
 void init_ball()
@@ -1062,21 +1100,49 @@ void game_over(int level, int score, int state)
 
 
 //아이디 출력 창
-void save_score(int score) {
+void save_score(int score, int quit_check) {
 	std::stringstream caption;
 	std::stringstream caption2;
 	std::stringstream caption3;
+	std::stringstream caption4;
 	
-		apply_surface(0, 0, background, screen);
-		message = TTF_RenderText_Solid(font, "Game over", textColor);
-		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
-//		caption << "Level : " << level;
-//		message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
-//		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
-		caption2 << "Score is : " << score;
-		message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
-		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
-		SDL_Flip(screen);	
+	
+	apply_surface(0, 0, background, screen);
+	message = TTF_RenderText_Solid(font, "Game over", textColor);
+	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
+	caption2 << "Score is : " << score;
+	message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
+	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
+	caption << "save the ID & scroe --> space bar";
+	message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
+//	caption3 << "quit --> ESC";
+//	message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
+//	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
+
+	SDL_Flip(screen);	
+		
+	int id_make_ok =0;
+	int quit_timer=0;
 
 
 }
+
+//아이디 만드는 창 화면 전환하는 함수.
+void make_id() {
+
+	std::stringstream caption;
+	std::stringstream caption2;
+	std::stringstream caption3;
+	std::stringstream caption4;
+
+
+	apply_surface(0, 0, background, screen);
+	message = TTF_RenderText_Solid(font, "make_id_fuction", textColor);
+	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
+
+	SDL_Flip(screen);
+
+}
+
+//아이디 입력을 받는데, SAVE 버튼이 눌리거나, 아이디를 10글자 받으면 아이디 입력을 마치고 메인 화면으로 올라간다.
