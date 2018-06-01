@@ -1011,10 +1011,6 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						case SDLK_a:
 							id[id_count] = 'a';
 							id_count++;
-					//		apply_surface(0, 0, background, screen);
-					//		message = TTF_RenderText_Solid(font, id, textColor);
-					//		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
-					//		SDL_Flip(screen);
 						case SDLK_b:
 							id[id_count] = 'b';
 							id_count++;
@@ -1042,8 +1038,110 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						case SDLK_h:
 							id[id_count] = 'h';
 							id_count++;
-							
+						case SDLK_i:
+							id[id_count] = 'i';
+							id_count++;
+						case SDLK_j:
+							id[id_count] = 'j';
+							id_count++;
 
+						case SDLK_k:
+							id[id_count] = 'k';
+							id_count++;
+
+						case SDLK_l:
+							id[id_count] = 'l';
+							id_count++;
+
+						case SDLK_m:
+							id[id_count] = 'm';
+							id_count++;
+
+						case SDLK_n:
+							id[id_count] = 'n';
+							id_count++;
+
+						case SDLK_o:
+							id[id_count] = 'o';
+							id_count++;
+
+						case SDLK_p:
+							id[id_count] = 'p';
+							id_count++;
+						case SDLK_q:
+							id[id_count] = 'q';
+							id_count++;
+						case SDLK_r:
+							id[id_count] = 'r';
+							id_count++;
+
+						case SDLK_s:
+							id[id_count] = 's';
+							id_count++;
+
+						case SDLK_t:
+							id[id_count] = 't';
+							id_count++;
+
+						case SDLK_u:
+							id[id_count] = 'u';
+							id_count++;
+
+						case SDLK_v:
+							id[id_count] = 'v';
+							id_count++;
+
+						case SDLK_w:
+							id[id_count] = 'w';
+							id_count++;
+
+						case SDLK_x:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_y:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_z:
+							id[id_count] = 'z';
+							id_count++;
+
+						////////숫자 입력받음
+
+						case SDLK_0:
+							id[id_count] = 't';
+							id_count++;
+
+						case SDLK_1:
+							id[id_count] = 'u';
+							id_count++;
+
+						case SDLK_2:
+							id[id_count] = 'v';
+							id_count++;
+
+						case SDLK_3:
+							id[id_count] = 'w';
+							id_count++;
+
+						case SDLK_4:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_5:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_6:
+							id[id_count] = 'z';
+							id_count++;
+						case SDLK_7:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_8:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_9:
+							id[id_count] = 'z';
+							id_count++;
+						
 					}
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
 				}//while문의 괄호 닫
