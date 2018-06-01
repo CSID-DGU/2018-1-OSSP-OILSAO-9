@@ -968,6 +968,9 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	}
 	int id_ok_check = 0;
 
+	string id;
+	int id_count =0;
+
 //	if(SDL_PollEvent(&event)) {
 		if(event.type == SDL_KEYDOWN) {
 			switch(event.key.keysym.sym) {
@@ -986,32 +989,67 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					}
 
 */
-
+			
 				std::stringstream caption;
 				caption << "make id (id must in 10 alpabet";
 				apply_surface(0, 0, background, screen);
 				message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
 				apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
+				if(id_count ==0){
+					message = TTF_RenderText_Solid(font, "no id, yet", textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
+				}
+				else {
+					apply_surface(0, 0, background, screen);
+					message = TTF_RenderText_Solid(font, id.c_str(), textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
+				}
 				SDL_Flip(screen);
-
+				if(SDL_PollEvent(&event)) {
 				if(event.type == SDL_KEYDOWN) {
 					switch(event.key.keysym.sym) {
 						case SDLK_a:
-							caption << "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa";
-							apply_surface(0, 0, background, screen);
-							message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
-							apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
-							SDL_Flip(screen);
+							id[id_count] = 'a';
+							id_count++;
+					//		apply_surface(0, 0, background, screen);
+					//		message = TTF_RenderText_Solid(font, id, textColor);
+					//		apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
+					//		SDL_Flip(screen);
+						case SDLK_b:
+							id[id_count] = 'b';
+							id_count++;
+
+						case SDLK_c:
+							id[id_count] = 'c';
+							id_count++;
+
+						case SDLK_d:
+							id[id_count] = 'd';
+							id_count++;
+
+						case SDLK_e:
+							id[id_count] = 'e';
+							id_count++;
+
+						case SDLK_f:
+							id[id_count] = 'f';
+							id_count++;
+
+						case SDLK_g:
+							id[id_count] = 'g';
+							id_count++;
+
+						case SDLK_h:
+							id[id_count] = 'h';
+							id_count++;
 							
 
-
 					}
-				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
+				}//while문의 괄호 닫
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
 
-				}
-
-
-				}
+				}//case sdlk_space 괄호 닫음				
 				case SDLK_DOWN: {}
 					
 			}
