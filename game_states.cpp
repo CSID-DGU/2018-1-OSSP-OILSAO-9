@@ -1086,6 +1086,38 @@ void main_game(int selector, int mode)//난이도 선택 변수
 				else if(keystates[SDLK_z]){
 					id += 'z';
    					id_count++;}
+				//숫자입력
+				else if(keystates[SDLK_0]){
+					id += '0';
+   					id_count++;}
+				else if(keystates[SDLK_1]){
+					id += '1';
+   					id_count++;}
+				else if(keystates[SDLK_2]){
+					id += '2';
+   					id_count++;}
+				else if(keystates[SDLK_3]){
+					id += '3';
+   					id_count++;}
+				else if(keystates[SDLK_4]){
+					id += '4';
+   					id_count++;}
+				else if(keystates[SDLK_5]){
+					id += '5';
+   					id_count++;}
+				else if(keystates[SDLK_6]){
+					id += '6';
+   					id_count++;}
+				else if(keystates[SDLK_7]){
+					id += '7';
+   					id_count++;}
+				else if(keystates[SDLK_8]){
+					id += '8';
+   					id_count++;}
+				else if(keystates[SDLK_9]){
+					id += '9';
+   					id_count++;}
+
 				else if(keystates[SDLK_ESCAPE]){
 					break;}
 }
