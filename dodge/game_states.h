@@ -29,14 +29,23 @@ extern SDL_Surface* message2;
 extern SDL_Surface* player;
 extern SDL_Surface* player2;
 extern SDL_Surface* ball;
+extern SDL_Surface* item_life;//item life아이콘
+extern SDL_Surface* item_shield;//item shield 아이콘
+extern SDL_Surface* item_player_speed;//item 플레이어 속도 아이콘
 extern SDL_Surface* heart;
 extern SDL_Surface* enemy_heart;
+extern SDL_Surface* item_life;
+extern SDL_Surface* item_shield;
+extern SDL_Surface* item_player_speed;
+
+
 
 extern SDL_Event event;
 extern TTF_Font *font;
 extern TTF_Font *font2;
 
 extern SDL_Rect balls[MAX_BALLS];
+extern SDL_Rect item;//item에 대한 위치를 지정하기 위함.
 
 extern SDL_Color textColor;
 
@@ -53,7 +62,16 @@ int select_level();
 void waiting(bool **isConnect);
 int socketing();
 void waitClient(bool **isConnect);
+
+//item
+int item_make();
+void make_item_icon(int item_num);
+
+//Ranking
 void connectDB();
+void save_score(int score, int quit_check);
+void make_id();
+void showRanking();
 
 //socket variable
 static const int bufsize = 16;
