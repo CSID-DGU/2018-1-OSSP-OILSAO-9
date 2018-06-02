@@ -53,6 +53,7 @@ int select_level();
 void waiting(bool **isConnect);
 int socketing();
 void waitClient(bool **isConnect);
+void connectDB();
 
 //socket variable
 static const int bufsize = 16;
