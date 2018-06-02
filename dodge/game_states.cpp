@@ -1289,22 +1289,22 @@ void connectDB(){
 	MYSQL_RES *res;
 	MYSQL_ROW row;
 
-	char* server = "localhost";
-	char* user="OILSAO";
+	char* serverName = "localhost";
+	char* userName="OILSAO";
 	char* password="123456789";
-	char* database="OILSAODODGE";
+	char* databaseName="OILSAODODGE";
 
 	if(!(conn = mysql_init((MYSQL*)NULL))){
 		//초기화 함수. 실패시 나간다.
 		exit(1);
 	}
 
-	if(!mysql_real_connect(conn,server,user, password, NULL, 3306, NULL, 0)){
+	if(!mysql_real_connect(conn,serveNamer,userName, password, NULL, 3306, NULL, 0)){
 		printf("connect error.\n");//DB접속 실패.
 		exit(1);
 	}
 
-	if(mysql_select_db(conn, database)!=0){
+	if(mysql_select_db(conn, databaseName)!=0){
 		mysql_close(conn);	//db 선택 실패?
 		printf("select db fail\n");
 		exit(1);
