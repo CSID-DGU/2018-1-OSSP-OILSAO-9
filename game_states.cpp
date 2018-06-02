@@ -1,6 +1,6 @@
 #include "game_states.h"
 #include <time.h>
-
+//#include <mysql.h>
 
 SDL_Rect item;
 SDL_Surface* item_life;
@@ -1008,123 +1008,129 @@ void main_game(int selector, int mode)//난이도 선택 변수
 				if(SDL_PollEvent(&event)) {
 				if(event.type == SDL_KEYDOWN) {
 				keystates = SDL_GetKeyState(NULL);
-				if(keystates[SDLK_a]) {
+				if(keystates[SDLK_a] && id_count <9) {
 					id += 'a';
 					id_count++;}
-				else if(keystates[SDLK_b]){
+				else if(keystates[SDLK_b] && id_count <10){
 					id += 'b';
    					id_count++;}
-				else if(keystates[SDLK_c]){
+				else if(keystates[SDLK_c] && id_count <10){
 					id += 'c';
    					id_count++;}
-				else if(keystates[SDLK_d]){
+				else if(keystates[SDLK_d] && id_count <10){
 					id += 'd';
    					id_count++;}
-				else if(keystates[SDLK_e]){
+				else if(keystates[SDLK_e] && id_count <10){
 					id += 'e';
    					id_count++;}
-				else if(keystates[SDLK_f]){
+				else if(keystates[SDLK_f] && id_count <10){
 					id += 'f';
    					id_count++;}
-				else if(keystates[SDLK_g]){
+				else if(keystates[SDLK_g] && id_count <10){
 					id += 'g';
    					id_count++;}
-				else if(keystates[SDLK_h]){
+				else if(keystates[SDLK_h] && id_count <10){
 					id += 'h';
    					id_count++;}
-				else if(keystates[SDLK_i]){
+				else if(keystates[SDLK_i] && id_count <10){
 					id += 'i';
    					id_count++;}
-				else if(keystates[SDLK_j]){
+				else if(keystates[SDLK_j] && id_count <10){
 					id += 'j';
    					id_count++;}
-				else if(keystates[SDLK_k]){
+				else if(keystates[SDLK_k] && id_count <10){
 					id += 'k';
    					id_count++;}
-				else if(keystates[SDLK_l]){
+				else if(keystates[SDLK_l] && id_count <10){
 					id += 'l';
    					id_count++;}
-				else if(keystates[SDLK_m]){
+				else if(keystates[SDLK_m] && id_count <10){
 					id += 'm';
    					id_count++;}
-				else if(keystates[SDLK_n]){
+				else if(keystates[SDLK_n] && id_count <10){
 					id += 'n';
    					id_count++;}
-				else if(keystates[SDLK_o]){
+				else if(keystates[SDLK_o] && id_count <10){
 					id += 'o';
    					id_count++;}
-				else if(keystates[SDLK_p]){
+				else if(keystates[SDLK_p] && id_count <10){
 					id += 'p';
    					id_count++;}		
-				else if(keystates[SDLK_q]){
+				else if(keystates[SDLK_q] && id_count <10){
 					id += 'q';
    					id_count++;}
-				else if(keystates[SDLK_r]){
+				else if(keystates[SDLK_r] && id_count <10){
 					id += 'r';
    					id_count++;}
-				else if(keystates[SDLK_s]){
+				else if(keystates[SDLK_s] && id_count <10){
 					id += 's';
    					id_count++;}
-				else if(keystates[SDLK_t]){
+				else if(keystates[SDLK_t] && id_count <10){
 					id += 't';
    					id_count++;}
-				else if(keystates[SDLK_u]){
+				else if(keystates[SDLK_u] && id_count <10){
 					id += 'u';
    					id_count++;}
-				else if(keystates[SDLK_v]){
+				else if(keystates[SDLK_v] && id_count <10){
 					id += 'v';
    					id_count++;}
-				else if(keystates[SDLK_w]){
+				else if(keystates[SDLK_w] && id_count <10){
 					id += 'w';
    					id_count++;}
-				else if(keystates[SDLK_x]){
+				else if(keystates[SDLK_x] && id_count <10){
 					id += 'x';
    					id_count++;}
-				else if(keystates[SDLK_y]){
+				else if(keystates[SDLK_y] && id_count <10){
 					id += 'y';
    					id_count++;}
-				else if(keystates[SDLK_z]){
+				else if(keystates[SDLK_z] && id_count <10){
 					id += 'z';
    					id_count++;}
 				//숫자입력
-				else if(keystates[SDLK_0]){
+				else if(keystates[SDLK_0] && id_count <10){
 					id += '0';
    					id_count++;}
-				else if(keystates[SDLK_1]){
+				else if(keystates[SDLK_1] && id_count <10){
 					id += '1';
    					id_count++;}
-				else if(keystates[SDLK_2]){
+				else if(keystates[SDLK_2] && id_count <10){
 					id += '2';
    					id_count++;}
-				else if(keystates[SDLK_3]){
+				else if(keystates[SDLK_3] && id_count <10){
 					id += '3';
    					id_count++;}
-				else if(keystates[SDLK_4]){
+				else if(keystates[SDLK_4] && id_count <10){
 					id += '4';
    					id_count++;}
-				else if(keystates[SDLK_5]){
+				else if(keystates[SDLK_5] && id_count <10){
 					id += '5';
    					id_count++;}
-				else if(keystates[SDLK_6]){
+				else if(keystates[SDLK_6] && id_count <10){
 					id += '6';
    					id_count++;}
-				else if(keystates[SDLK_7]){
+				else if(keystates[SDLK_7] && id_count <10){
 					id += '7';
    					id_count++;}
-				else if(keystates[SDLK_8]){
+				else if(keystates[SDLK_8] && id_count <10){
 					id += '8';
    					id_count++;}
-				else if(keystates[SDLK_9]){
+				else if(keystates[SDLK_9] && id_count <10){
 					id += '9';
    					id_count++;}
-
+				//backspace 입력시 아이디 글자 삭제 
+				else if(keystates[SDLK_BACKSPACE]){
+					string temp = id;
+					id_count--;
+					id = temp.substr(0, id_count);}
+				//ESC누르면 종료 
 				else if(keystates[SDLK_ESCAPE]){
 					break;}
 }
 
 					
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
-				}//while문의 괄호 닫
+				}//while문의 괄호 닫음 --> 아이디 입력을 마침
+				
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
 
 				}//case sdlk_space 괄호 닫음				
