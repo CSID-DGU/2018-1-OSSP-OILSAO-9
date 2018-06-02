@@ -1124,6 +1124,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					string temp = id;
 					id_count--;
 					id = temp.substr(0, id_count);}
+				//Enter 입력시 종료
+				else if(keystates[SDLK_RETURN]){
+					id_ok_check = 1;
+					break;
+				}
 				//ESC누르면 종료
 				else if(keystates[SDLK_ESCAPE]){
 					break;}
@@ -1132,6 +1137,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
 				}//while문의 괄호 닫음 --> 아이디 입력을 마침
+
+				//id를 입력 받았으면
+				if(id_ok_check == 1){
+					db_insert(id, score);
+				}
 
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
 
