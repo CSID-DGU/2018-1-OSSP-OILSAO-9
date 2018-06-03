@@ -1342,15 +1342,29 @@ void showRanking(){
 
 	apply_surface(0,0,background,screen);
 	message=TTF_RenderText_Solid(font, "RANKING", textColor);
-	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h,message,screen);
+	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h-150,message,screen);
+
+	message=TTF_RenderText_Solid(font, "RANK", textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h-50,message,screen);
+	message=TTF_RenderText_Solid(font, "SCORE", textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h-50,message,screen);
+	message=TTF_RenderText_Solid(font, "ID", textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h-50,message,screen);
 
 std::stringstream caption[10];
 int i=0;
 	while((sql_row=mysql_fetch_row(sql_result))!=NULL){
-	std::cout<<sql_row[1]<<sql_row[2]<<sql_row[3]<<std::endl;
-	caption[i]<<sql_row[1]<<"	"<<sql_row[2]<<"	"<<sql_row[3];
+	caption[i]<<sql_row[1];
 	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
-	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50,message,screen);
+	apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
+	caption[i].str("");
+	caption[i]<<sql_row[2];
+	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
+	caption[i].str("");
+	caption[i]<<sql_row[3];
+	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
 }
 
 	//
