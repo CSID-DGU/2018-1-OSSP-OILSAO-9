@@ -1,4 +1,5 @@
 #include "helpers.h"
+#include "/usr/include/mysql/mysql.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -20,6 +21,16 @@ const int SERVER_MODE = 2;
 const int CLIENT_MODE = 3;
 const int WINNER = 1;
 const int LOSER = 2;
+
+// const char* DB_HOST = "localhost";
+// const char* DB_USER ="OILSAO";
+// const char* DB_PASSd="123456789";
+// const char* DB_NAME ="OILSAODODGE";
+#define DB_HOST "localhost"
+#define DB_USER "OILSAO"
+#define DB_PASS "123456789"
+#define DB_NAME "OILSAODODGE"
+
 
 extern SDL_Surface *background;
 extern SDL_Surface *screen;
@@ -68,7 +79,7 @@ int item_make();
 void make_item_icon(int item_num);
 
 //Ranking
-void connectDB();
+int connectDB();
 void save_score(int score, int quit_check);
 void make_id();
 void showRanking();

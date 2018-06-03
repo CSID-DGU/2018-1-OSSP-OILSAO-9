@@ -19,7 +19,7 @@ socket programming을 위하여 추가되 해더
 #include <netdb.h>
 
 /*MYSQL 연동을 위하여 추가된 헤더*/
-#include ".usr/include/mysql/mysql.h"
+//#include ".usr/include/mysql/mysql.h"
 
 const int FRAMES_PER_SECOND = 200;
 

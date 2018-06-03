@@ -1,4 +1,5 @@
 #include "game_states.h"
+#include <mysql.h>
 #include <time.h>
 
 
@@ -162,7 +163,7 @@ int select_level()
 }
 
 
-int ranking() 
+int ranking()
 {
 
 
@@ -481,7 +482,7 @@ int item_make()
 	else if(random >10 && random <=25) return 2; // 쉴드 아이템
         else if(random >25 && random <=35) return 3; // 플레이어 속도 증가
         else if(random >35 && random <=50) return 4; // 플레이어 속도 감소
-        
+
         //item2
 	else if(random >50 && random <=60) return 5; // 공 크기 증가
 	else if(random >60 && random <=70) return 6; // 공 크기 감소
@@ -491,7 +492,7 @@ int item_make()
 
 }
 
-       
+
 
 
 
@@ -650,21 +651,21 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		else if (life == 1) {
 			apply_surface(580, 20, heart, screen);
 		}
-		
+
 
 		if(SDL_GetTicks()-time2 > 1){
 		   time2 = SDL_GetTicks();
-              
+
              	   if(item_exist == false) item_check =0;
              	   else item_check = -1;
 		   if((score % 10) == 0  && (item_check == 0)){//임의의 점수마다 아이템을 생성한다.
-                  
+
 			item_num = item_make();
-	
+
                         item_exist = true;
 
 		    }
-			
+
 		    //item_num별로 다른 아이템 아이콘을 출력한다.
 		    if(item_num == 1){
 			   apply_surface(item.x, item.y, item_life, screen);
@@ -704,8 +705,8 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			player_rect2.y = player2_position_y - PLAYER_HEIGHT / 2;
 			player_rect2.w = PLAYER_WIDTH;
 			player_rect2.h = PLAYER_HEIGHT;
-			
-                     
+
+
 			if(intersects(item, player_rect)){//플레이어와 아이템이 충돌했는지 여부를 확인, 충동하면 1을 반환하여 조건문 안의 코드 실행.
 			// item_num에 따라서 다르게 기능을 실행해야 한다.
 				item_exist = false;
@@ -728,7 +729,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			   }
 
 			}
-                     
+
 			if (intersects(balls[i], player_rect) && Die_Count == 0 && shield_check == 0)
 			{
 				life--;
@@ -755,7 +756,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 							if(SDL_PollEvent(&event)) {
 							if(event.type == SDL_KEYDOWN) {
 								switch(event.key.keysym.sym) {
-									case SDLK_SPACE: 
+									case SDLK_SPACE:
 										apply_surface(0, 0, background, screen);//background로 덮음
 										temp <<"space bar ok";
 										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
@@ -825,12 +826,12 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					if(mode == MULTI_MODE){
 						game_over(level, score, LOSER);
 						quit = true;
-						
+
 					}
 					else if(mode == SINGLE_MODE) {
 						game_over(level,score, SINGLE_MODE);
 						quit = true;
-					
+
 					}
 					else //life가 남아있으면 공 초기화후 계속
 					{
@@ -840,7 +841,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			}
 		}
 
-		
+
 		if(SDL_GetTicks() - shield_start >= 1000) shield_check = 0;//쉴드시간 완료하면 shield_check를 0으로 표시.
 		if(SDL_GetTicks() - player_speed_start >= 1500) player_speed_check = 0;
 		if(life_check == 1) {
@@ -989,7 +990,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					}
 
 */
-			
+
 				std::stringstream caption;
 				caption << "make id (id must in 10 alpabet";
 				apply_surface(0, 0, background, screen);
@@ -1141,15 +1142,15 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						case SDLK_9:
 							id[id_count] = 'z';
 							id_count++;
-						
+
 					}
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
 				}//while문의 괄호 닫
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
 
-				}//case sdlk_space 괄호 닫음				
+				}//case sdlk_space 괄호 닫음
 				case SDLK_DOWN: {}
-					
+
 			}
 		}
 //	}
@@ -1218,8 +1219,8 @@ void game_over(int level, int score, int state)
 		{
 			if (SDL_PollEvent(&event))
 			{
-				if (event.type == SDL_QUIT || 
-					(event.type == SDL_KEYDOWN && 
+				if (event.type == SDL_QUIT ||
+					(event.type == SDL_KEYDOWN &&
 					(event.key.keysym.sym == SDLK_SPACE || event.key.keysym.sym == SDLK_ESCAPE)))
 				{
 					break;
@@ -1241,8 +1242,8 @@ void save_score(int score, int quit_check) {
 	std::stringstream caption2;
 	std::stringstream caption3;
 	std::stringstream caption4;
-	
-	
+
+
 	apply_surface(0, 0, background, screen);
 	message = TTF_RenderText_Solid(font, "Game over", textColor);
 	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
@@ -1256,8 +1257,8 @@ void save_score(int score, int quit_check) {
 //	message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
 //	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
 
-	SDL_Flip(screen);	
-		
+	SDL_Flip(screen);
+
 	int id_make_ok =0;
 	int quit_timer=0;
 
@@ -1280,5 +1281,43 @@ void make_id() {
 	SDL_Flip(screen);
 
 }
-
 //아이디 입력을 받는데, SAVE 버튼이 눌리거나, 아이디를 10글자 받으면 아이디 입력을 마치고 메인 화면으로 올라간다.
+
+//DB와 연동한다.
+void connectDB(){
+	MYSQL *conn;
+	MYSQL_RES *res;
+	MYSQL_ROW row;
+
+	char* server = "localhost";
+	char* user="OILSAO";
+	char* password="123456789";
+	char* database="OILSAODODGE";
+
+	if(!(conn = mysql_init((MYSQL*)NULL))){
+		//초기화 함수. 실패시 나간다.
+		exit(1);
+	}
+
+	if(!mysql_real_connect(conn,server,user, password, NULL, 3306, NULL, 0)){
+		printf("connect error.\n");//DB접속 실패.
+		exit(1);
+	}
+
+	if(mysql_select_db(conn, database)!=0){
+		mysql_close(conn);	//db 선택 실패?
+		printf("select db fail\n");
+		exit(1);
+	}
+
+
+}
+
+void showRanking(){
+	connectDB();
+	apply_surface(0,0,background,screen);
+	message=TTF_RenderText_Solid(font, "RANKING", textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h,message,screen);
+
+	SDL_Flip(screen);
+}
