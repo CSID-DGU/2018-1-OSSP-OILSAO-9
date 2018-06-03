@@ -166,7 +166,7 @@ int ranking()
 
 
  showRanking();
-return 1;
+return 2;
 
 
 }
@@ -1313,6 +1313,7 @@ void showRanking(){
   MYSQL *conn =NULL;
 	MYSQL* connection=NULL;
   MYSQL_RES *sql_result;
+	MYSQL_ROW sql_row;
 	//conn = mysql_init((MYSQL*)NULL);
 
 	if(!(conn = mysql_init((MYSQL*)NULL))){
@@ -1336,12 +1337,31 @@ void showRanking(){
 	queryStart=mysql_query(connection,"select * from DodgeRank");
 	if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
 	else{std::cout<<"쿼리 입력 완료"<<std::endl;}
+
 	sql_result=mysql_store_result(connection);
 
 	apply_surface(0,0,background,screen);
 	message=TTF_RenderText_Solid(font, "RANKING", textColor);
 	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h,message,screen);
 
-	mysql_close(conn);
+std::stringstream caption[10];
+int i=0;
+	while((sql_row=mysql_fetch_row(sql_result))!=NULL){
+	std::cout<<sql_row[1]<<sql_row[2]<<sql_row[3]<<std::endl;
+	caption[i]<<sql_row[1]<<"	"<<sql_row[2]<<"	"<<sql_row[3];
+	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
+	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50,message,screen);
+}
+
+	//
+	// message = TTF_RenderText_Solid(font, "Game over", textColor);
+	// apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
+	// caption2 << "Score is : " << score;
+	// message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
+	// apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
+	// caption << "save the ID & scroe --> space bar";
+	// message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+	// apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
 	SDL_Flip(screen);
+	mysql_close(conn);
 }
