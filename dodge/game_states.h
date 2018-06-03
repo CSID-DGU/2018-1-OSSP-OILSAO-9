@@ -19,6 +19,7 @@ const int SINGLE_MODE = 0;
 const int MULTI_MODE = 1;
 const int SERVER_MODE = 2;
 const int CLIENT_MODE = 3;
+const int RANKING_MODE = 4;
 const int WINNER = 1;
 const int LOSER = 2;
 
@@ -26,7 +27,8 @@ const int LOSER = 2;
 // const char* DB_USER ="OILSAO";
 // const char* DB_PASSd="123456789";
 // const char* DB_NAME ="OILSAODODGE";
-#define DB_HOST "localhost"
+//#define DB_HOST "localhost"
+#define DB_HOST "oilsaododge.czrlcuz3fj2o.ap-northeast-2.rds.amazonaws.com"
 #define DB_USER "OILSAO"
 #define DB_PASS "123456789"
 #define DB_NAME "OILSAODODGE"
@@ -79,7 +81,7 @@ int item_make();
 void make_item_icon(int item_num);
 
 //Ranking
-int connectDB();
+//int connectDB();
 void save_score(int score, int quit_check);
 void make_id();
 void showRanking();

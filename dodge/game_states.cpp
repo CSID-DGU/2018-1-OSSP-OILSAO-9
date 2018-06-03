@@ -7,7 +7,6 @@ SDL_Surface* item_life;
 SDL_Surface* item_shield;
 SDL_Surface* item_player_speed;
 bool item_exist = false;
-const int RANKING_MODE = 3;
 
 int ranking();
 void save_score(int score, int quick_check);
@@ -1283,45 +1282,66 @@ void make_id() {
 //아이디 입력을 받는데, SAVE 버튼이 눌리거나, 아이디를 10글자 받으면 아이디 입력을 마치고 메인 화면으로 올라간다.
 
 //DB와 연동한다.
-int connectDB(){
-MYSQL *conn =NULL;
-	MYSQL_RES *res;
-	MYSQL_ROW row;
+// int connectDB(){
+//   MYSQL *conn =NULL;
+// 	MYSQL_RES *res;
+// 	MYSQL_ROW row;
+//
+// 	if(!(conn = mysql_init((MYSQL*)NULL))){
+// 		//초기화 함수. 실패시 나간다.
+// 		return -1;
+// 		exit(1);
+// 	}
+//
+// 	if(!mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0)){
+// 		printf("connect error.\n");//DB접속 실패.
+// 		return -1;
+// 		exit(1);
+// 	}
+//
+// 	// if(mysql_select_db(conn, databaseName)!=0){
+// 	// 	mysql_close(conn);	//db 선택 실패?
+// 	// 	printf("select db fail\n");
+// 	// 	return -1;
+// 	// 	exit(1);
+// 	// }
+// 	return 0;
+//
+// }
+
+void showRanking(){
+  MYSQL *conn =NULL;
+	MYSQL* connection=NULL;
+  MYSQL_RES *sql_result;
+	//conn = mysql_init((MYSQL*)NULL);
 
 	if(!(conn = mysql_init((MYSQL*)NULL))){
 		//초기화 함수. 실패시 나간다.
-		return -1;
+		//return -1;
 		exit(1);
 	}
+	connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
+		if(connection==NULL){
+			std::cout << "\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
+			//printf(stderr, "connect error : %s\n", mysql_error(conn));//DB접속 실패.
+			//return -1;
+			//exit(1);
+		}
+		else std:: cout<<"데이터베이스 접속 완료.."<<std::endl;
 
-	if(!mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0)){
-		printf("connect error.\n");//DB접속 실패.
-		return -1;
-		exit(1);
-	}
 
-	// if(mysql_select_db(conn, databaseName)!=0){
-	// 	mysql_close(conn);	//db 선택 실패?
-	// 	printf("select db fail\n");
-	// 	return -1;
-	// 	exit(1);
-	// }
-	return 0;
-
-}
-
-void showRanking(){
-	if(connectDB()!=0) exit(1);
-MYSQL *conn =NULL;
-conn = mysql_init((MYSQL*)NULL);
 	//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
 	int queryStart;
-	MYSQL* connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-	queryStart=mysql_query(connection,"select * from OILSAODODGE WHERE rank<=10 ");
+	//connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
+	queryStart=mysql_query(connection,"select * from DodgeRank");
+	if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
+	else{std::cout<<"쿼리 입력 완료"<<std::endl;}
+	sql_result=mysql_store_result(connection);
 
 	apply_surface(0,0,background,screen);
 	message=TTF_RenderText_Solid(font, "RANKING", textColor);
 	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h,message,screen);
 
+	mysql_close(conn);
 	SDL_Flip(screen);
 }
