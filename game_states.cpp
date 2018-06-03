@@ -23,6 +23,7 @@ const int RANKING_MODE = 3;
 int ranking();
 void save_score(int score, int quick_check);
 void make_id();
+void db_insert(int score, string id, int id_count);
 
 void menu()
 {
@@ -1148,7 +1149,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 				//id를 입력 받았으면
 				if(id_ok_check == 1){
-					db_insert(id, score);
+					db_insert(id, score, id_count);
 				}
 
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
@@ -1291,7 +1292,7 @@ void make_id() {
 
 
 //db연동을 시작하고, db에 아이디와 점수를 입력한다.
-void db_insert(int score, string id) {
+void db_insert(int score, string id, int id_string) {
 	MYSQL *conn = NULL;
 	MYSQL *connection = NULL;
 	MYSQL_RES *sql_result;
@@ -1334,11 +1335,22 @@ void db_insert(int score, string id) {
 
 	mysql_free_result(sql_result);
 
+
+	char* id_char = new char[id_count];
+	//string의 id를 char 형식으로 변경한다.
+	for(int i=0; i<id_count; i++) {
+
+		id_char[i] = id[i];
+
+	}
+
+
+
 	char query[255];
 	//OILSAODODGE에 db 형에 맞게 id와 score을 입력한다.
 	//sprintf 사용.
 	//db연동하는 것을 함수로 사용할 수 있을지를 검토해야 한다.
-	sprintf(query, "insert into ranking system" "('%s', '%d', '%d')", id, score, number_count+1);
+	sprintf(query, "insert into ranking system" "('%s', '%d', '%d')", id_char, score, number_count+1);
 
 	queryStart=mysql_query(connection, query);
 	if(queryStart != 0) {
