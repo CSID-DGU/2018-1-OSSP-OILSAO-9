@@ -1,8 +1,17 @@
 #include "game_states.h"
 #include <time.h>
 #include <mysql.h>
+#include "/usr/include/mysql/mysql.h"
+
+#define DB_HOST "localhost"
+#define DB_USER "OILSAO"
+#define DB_PASS "123456789"
+#define DB_NAME "OILSAODODGE"
+
+
+
+
 void db_insert(int score, string id)
-void connectDB();
 
 SDL_Rect item;
 SDL_Surface* item_life;
@@ -168,8 +177,7 @@ int ranking()
 {
 
 
-
-return 1;
+return 2;
 
 
 }
@@ -1284,40 +1292,61 @@ void make_id() {
 
 //db연동을 시작하고, db에 아이디와 점수를 입력한다.
 void db_insert(int score, string id) {
-	connectDB(); // DB를 연동한다.
-	//OILSAODODGE에 db 형에 맞게 id와 score을 입력한다.
-	//sprintf 사용.
-	//db연동하는 것을 함수로 사용할 수 있을지를 검토해야 한다.
-	sprintf(query, "insert into ranking system" "('%s', '%d')", id, score);
+	MYSQL *conn = NULL;
+	MYSQL *connection = NULL;
+	MYSQL_RES *sql_result;
+	MYSQL_ROW sql_row;
 
-}
-
-void connectDB(){//DB와 연동한다.
-	MYSQL *conn;
-	MYSQL_RES *res;
-	MYSQL_ROW row;
-
+/*
 	char* server = "localhost";
 	char* user="OILSAO";
 	char* password="123456789";
 	char* database="OILSAODODGE";
-
+*/
 	if(!(conn = mysql_init((MYSQL*)NULL))){
 		//초기화 함수. 실패시 나간다.
 		exit(1);
 	}
 
-	if(!mysql_real_connect(conn,server,user, password, NULL, 3306, NULL, 0)){
-		printf("connect error.\n");//DB접속 실패.
-		exit(1);
+	connection = mysql_real_connect(conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char *)NULL, 0);
+	if(connection == NULL){
+		std::cout <<"\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
+	}
+	else
+		std::cout<<"데이터베이스 접속 완료.."<<std::endl;
+
+
+	int queryStart;
+	queryStart = mysql_query(connection, "select * from DongeRank");
+	if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf(stderr, "Mysql query error : %s", mysql_error(conn));}
+	else{std::cout<<"쿼리 입력 완료"<<std::endl;}
+
+
+	sql_result = mysql_store_result(connection);
+
+	apply_surface(0,0,background,screen);
+
+	int number_count=0;	
+
+	while((sql_row=mysql_fetch_row(sql_result))!=NULL){
+		number_count++;
 	}
 
-	if(mysql_select_db(conn, database)!=0){
-		mysql_close(conn);	//db 선택 실패?
-		printf("select db fail\n");
-		exit(1);
+	mysql_free_result(sql_result);
+
+	char query[255];
+	//OILSAODODGE에 db 형에 맞게 id와 score을 입력한다.
+	//sprintf 사용.
+	//db연동하는 것을 함수로 사용할 수 있을지를 검토해야 한다.
+	sprintf(query, "insert into ranking system" "('%s', '%d', '%d')", id, score, number_count+1);
+
+	queryStart=mysql_query(connection, query);
+	if(queryStart != 0) {
+		fprintf(stderr,"Mysql query error : %s", mysql_error(&conn));
+		return 1;
 	}
 
+	mysql_close(connection);
 
 }
 
