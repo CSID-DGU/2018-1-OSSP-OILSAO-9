@@ -1334,7 +1334,7 @@ void showRanking(){
 	//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
 	int queryStart;
 	//connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-	queryStart=mysql_query(connection,"select * from DodgeRank");
+	queryStart=mysql_query(connection,"select * from DodgeRank ORDER BY rank");
 	if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
 	else{std::cout<<"쿼리 입력 완료"<<std::endl;}
 
