@@ -1,9 +1,10 @@
 #include "game_states.h"
-#include <time.h>
-#include <mysql.h>
-#include "/usr/include/mysql/mysql.h"
+#include <string.h>
+//#include <time.h>
+//#include <mysql.h>
+//#include "/usr/include/mysql/mysql.h"
 
-#define DB_HOST "localhost"
+#define DB_HOST "oilsaododge.czrlcuz3fj2o.ap-northeast-2.rds.amazonaws.com"
 #define DB_USER "OILSAO"
 #define DB_PASS "123456789"
 #define DB_NAME "OILSAODODGE"
@@ -11,7 +12,7 @@
 
 
 
-void db_insert(int score, string id)
+void db_insert(int score, std::string id, int id_count);
 
 SDL_Rect item;
 SDL_Surface* item_life;
@@ -23,7 +24,6 @@ const int RANKING_MODE = 3;
 int ranking();
 void save_score(int score, int quick_check);
 void make_id();
-void db_insert(int score, string id, int id_count);
 
 void menu()
 {
@@ -979,7 +979,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	}
 	int id_ok_check = 0;
 	Uint8 *keystates = NULL;
-	string id = "";
+	std::string id = "";
 	int id_count =0;
 
 //	if(SDL_PollEvent(&event)) {
@@ -1130,7 +1130,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
    					id_count++;}
 				//backspace 입력시 아이디 글자 삭제
 				else if(keystates[SDLK_BACKSPACE]){
-					string temp = id;
+					std::string temp = id;
 					id_count--;
 					id = temp.substr(0, id_count);}
 				//Enter 입력시 종료
@@ -1149,7 +1149,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 				//id를 입력 받았으면
 				if(id_ok_check == 1){
-					db_insert(id, score, id_count);
+					db_insert(score, id, id_count);
 				}
 
 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
@@ -1292,7 +1292,7 @@ void make_id() {
 
 
 //db연동을 시작하고, db에 아이디와 점수를 입력한다.
-void db_insert(int score, string id, int id_string) {
+void db_insert(int score, std::string id, int id_count) {
 	MYSQL *conn = NULL;
 	MYSQL *connection = NULL;
 	MYSQL_RES *sql_result;
@@ -1309,6 +1309,18 @@ void db_insert(int score, string id, int id_string) {
 		exit(1);
 	}
 
+
+
+	char* id_char = new char[id_count];
+	//string의 id를 char 형식으로 변경한다.
+	for(int i=0; i<id_count; i++) {
+
+		id_char[i] = id[i];
+
+	}
+
+	std::cout <<"id = " <<id <<std::endl;
+
 	connection = mysql_real_connect(conn, DB_HOST, DB_USER, DB_PASS, DB_NAME, 3306, (char *)NULL, 0);
 	if(connection == NULL){
 		std::cout <<"\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
@@ -1318,7 +1330,7 @@ void db_insert(int score, string id, int id_string) {
 
 
 	int queryStart;
-	queryStart = mysql_query(connection, "select * from DongeRank");
+	queryStart = mysql_query(connection, "select * from DodgeRank");
 	if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf(stderr, "Mysql query error : %s", mysql_error(conn));}
 	else{std::cout<<"쿼리 입력 완료"<<std::endl;}
 
@@ -1336,29 +1348,22 @@ void db_insert(int score, string id, int id_string) {
 	mysql_free_result(sql_result);
 
 
-	char* id_char = new char[id_count];
-	//string의 id를 char 형식으로 변경한다.
-	for(int i=0; i<id_count; i++) {
-
-		id_char[i] = id[i];
-
-	}
-
-
-
 	char query[255];
 	//OILSAODODGE에 db 형에 맞게 id와 score을 입력한다.
 	//sprintf 사용.
 	//db연동하는 것을 함수로 사용할 수 있을지를 검토해야 한다.
-	sprintf(query, "insert into ranking system" "('%s', '%d', '%d')", id_char, score, number_count+1);
+	sprintf(query, "insert into DodgeRank values" "('%d', ' ', '%d', '%s')", number_count+1 , score, id);
+	std::cout <<"id = " <<id<<std::endl;
 
 	queryStart=mysql_query(connection, query);
 	if(queryStart != 0) {
-		fprintf(stderr,"Mysql query error : %s", mysql_error(&conn));
-		return 1;
+		fprintf(stderr,"Mysql query error : %s", mysql_error(conn));
 	}
 
 	mysql_close(connection);
+
+
+	
 
 }
 
