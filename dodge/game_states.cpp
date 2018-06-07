@@ -1334,7 +1334,7 @@ void showRanking(){
 	//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
 	int queryStart;
 	//connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-	queryStart=mysql_query(connection,"select * from DodgeRank ORDER BY rank");
+	queryStart=mysql_query(connection,"select * from DodgeRank ORDER BY score DESC");
 	if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
 	else{std::cout<<"쿼리 입력 완료"<<std::endl;}
 
@@ -1353,18 +1353,21 @@ void showRanking(){
 
 std::stringstream caption[10];
 int i=0;
+
 	while((sql_row=mysql_fetch_row(sql_result))!=NULL){
-	caption[i]<<sql_row[1];
+
+	caption[i]<<i+1;
 	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
 	apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
 	caption[i].str("");
-	caption[i]<<sql_row[2];
+	caption[i]<<sql_row[1];
 	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
 	apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
 	caption[i].str("");
-	caption[i]<<sql_row[3];
+	caption[i]<<sql_row[2];
 	message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
 	apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
+	i++;
 }
 
 	//
