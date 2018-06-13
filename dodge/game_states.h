@@ -84,7 +84,7 @@ void make_item_icon(int item_num);
 //int connectDB();
 void save_score(int score, int quit_check);
 void make_id();
-void showRanking();
+int showRanking();
 
 //socket variable
 static const int bufsize = 16;
