@@ -1295,6 +1295,9 @@ void make_id() {
 //
 // }
 
+int checki=0;
+int i=0;
+
 int showRanking(){
 	bool quit = false;
 	int rankmode = 0;
@@ -1307,7 +1310,7 @@ int showRanking(){
   			MYSQL_RES *sql_result;
 			MYSQL_ROW sql_row;
 			//conn = mysql_init((MYSQL*)NULL);
-			string DBtoArr[100][3];
+			std::string DBtoArr[100][3];
 			if(!(conn = mysql_init((MYSQL*)NULL))){
 				//초기화 함수. 실패시 나간다.
 				//return -1;
@@ -1343,28 +1346,32 @@ int showRanking(){
 			message=TTF_RenderText_Solid(font, "ID", textColor);
 			apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h-50,message,screen);
 
-			std::stringstream caption[10];
-			int i=0;
+			std::string caption[10];
+			int lrank=0;
 
+			int j = 0;
 			while((sql_row=mysql_fetch_row(sql_result)) != NULL){	//DB 정보를 이차원 배열에 저장
-				DBtoArr[i][0]=i+1;
-				DBtoArr[i][1]=sql_row[1];
-				DBtoArr[i][2]=sql_row[2];
-				// if(i < 3) {
-				// caption[i]<<i+1;
-				// message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
-				// apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
-				// caption[i].str("");
-				// caption[i]<<sql_row[1];
-				// message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
-				// apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
-				// caption[i].str("");
-				// caption[i]<<sql_row[2];
-				// message = TTF_RenderText_Solid(font, caption[i].str().c_str(), textColor);
-				// apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h+50*i,message,screen);
-				// i++;
-				// }
+				DBtoArr[j][0]=j+1;
+				DBtoArr[j][1]=sql_row[1];
+				DBtoArr[j][2]=sql_row[2];
+				j++;
 			}
+			while(lrank < 3) {
+				caption[i]=DBtoArr[i][0];
+				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
+				apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
+				caption[i];
+				caption[i]=DBtoArr[i][1];
+				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
+				apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
+				caption[i];
+				caption[i]=DBtoArr[i][2];
+				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
+				apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
+				i++;
+				lrank++;
+				}
+			//}
 			message = TTF_RenderText_Solid(font,  "Search           Exit", textColor);
 			apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+180,message,screen);
 			message2 = TTF_RenderText_Solid(font, "Search           ", textColor);
@@ -1387,16 +1394,40 @@ int showRanking(){
 			{
 				switch(event.key.keysym.sym)
 				{
+				case SDLK_UP:
+				{
+					i = 0;
+					checki = 0;
+					break;
+				}
+				case SDLK_DOWN:
+				{
+					if(checki > 3)
+					{
+						i = 0;
+						checki = 0;
+						break;
+					}
+					else
+					{
+						i = 0;
+						checki++;
+						i += checki;
+						break;
+					}
+				}
 				case SDLK_RIGHT:
 				{
 					if(rankmode >= 1) break;
 					rankmode++;
+					i = 0;
 					break;
 				}
 				case SDLK_LEFT:
 				{
 					if(rankmode <= 0) break;
 					rankmode--;
+					i = 0;
 					break;
 				}
 				case SDLK_SPACE:
@@ -1404,6 +1435,8 @@ int showRanking(){
 					message = NULL;
 					if(rankmode == 0) return INITIAL_MODE;
 					else if(rankmode == 1) return INITIAL_MODE;
+					i = 0;
+					checki = 0;
 					break;
 				}
 				case SDLK_ESCAPE:
