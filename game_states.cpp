@@ -11,7 +11,6 @@
 
 
 
-
 void db_insert(int score, std::string id, int id_count);
 
 SDL_Rect item;
@@ -1352,7 +1351,14 @@ void db_insert(int score, std::string id, int id_count) {
 	//OILSAODODGE에 db 형에 맞게 id와 score을 입력한다.
 	//sprintf 사용.
 	//db연동하는 것을 함수로 사용할 수 있을지를 검토해야 한다.
-	sprintf(query, "insert into DodgeRank values" "('%d', ' ', '%d', '%s')", number_count+1 , score, id);
+
+	char arr[10];
+
+	for(int a=0;a<10-id.length();a++)
+		id[id.length()+a] = ' ';
+	
+	sprintf(query, "insert into DodgeRank values" "('%d', '%d', '%c%c%c%c%c%c%c%c%c%c')", number_count+1 , score, id[0],id[1],id[2],id[3],id[4],id[5],id[6],id[7],id[8],id[9]);
+
 	std::cout <<"id = " <<id<<std::endl;
 
 	queryStart=mysql_query(connection, query);
