@@ -1357,7 +1357,8 @@ int showRanking(){
 				j++;
 			}
 			while(lrank < 3) {
-				caption[i]=DBtoArr[i][0];
+				int rank1 = i+1;
+				caption[i]=std::to_string(rank1);
 				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
 				apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
 				caption[i];
@@ -1402,7 +1403,7 @@ int showRanking(){
 				}
 				case SDLK_DOWN:
 				{
-					if(checki > 3)
+					if(checki > j-7)
 					{
 						i = 0;
 						checki = 0;
