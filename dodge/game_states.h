@@ -20,6 +20,7 @@ const int MULTI_MODE = 1;
 const int SERVER_MODE = 2;
 const int CLIENT_MODE = 3;
 const int RANKING_MODE = 4;
+const int SEARCH_MODE=5;
 const int WINNER = 1;
 const int LOSER = 2;
 
@@ -85,7 +86,7 @@ void make_item_icon(int item_num);
 void save_score(int score, int quit_check);
 void make_id();
 int showRanking();
-
+int searchRanking();
 //socket variable
 static const int bufsize = 16;
 static const char ip[20] = "127.0.0.1";
