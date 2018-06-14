@@ -1397,9 +1397,18 @@ int showRanking(){
 				{
 				case SDLK_UP:
 				{
-					i = 0;
-					checki = 0;
-					break;
+					if(checki < 1)
+					{
+						i = 0;
+						break;
+					}
+					else
+					{
+						i = 0;
+						checki--;
+						i += checki;
+						break;
+					}
 				}
 				case SDLK_DOWN:
 				{
