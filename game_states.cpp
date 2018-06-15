@@ -437,12 +437,12 @@ bool load_files()
 
 	player = load_image("assets/rabbit.png");
 	player2 = SDL_LoadBMP("assets/player2.bmp");
-	ball = load_image("assets/rocket.bmp");
-	heart = SDL_LoadBMP("assets/heart.bmp");
+	ball = load_image("assets/ball.png");
+	heart = load_image("assets/life.png");
 	enemy_heart = SDL_LoadBMP("assets/enemy_heart.bmp");
 
         //item 관련 아이콘추가
-        item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
+        item_life = load_image("assets/life.png");
         item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
         item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
 
@@ -547,7 +547,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 
 	int randomball[MAX_BALLS]; // 떨어지는 볼의 속도를 랜덤하게 조정하기 위해 선언한 배열
-
+        SDL_SetColorKey(heart, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
 	if (mode == SINGLE_MODE) srand((unsigned int)time(NULL)); //in Single Mode set random ball
 
 	for (i = 0; i < MAX_BALLS; i++)
@@ -679,7 +679,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		    //item_num별로 다른 아이템 아이콘을 출력한다.
 		    if(item_num == 1){
 			   apply_surface(item.x, item.y, item_life, screen);
-			   SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(item_life->format, 255, 255, 255));
+			   SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
 		    }
                     else if(item_num ==2)
 			   apply_surface(item.x, item.y, item_shield, screen);
@@ -744,52 +744,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			{
 				life--;
 
-/*
-				if(life <=0 && mode == SINGLE_MODE) {
-					std::stringstream caption;
-					std::stringstream caption2;
-					std::stringstream caption3;
-					std::stringstream temp;
-						apply_surface(0, 0, background, screen);
-						message = TTF_RenderText_Solid(font, "Game over", textColor);
-						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
-						caption << "Level : " << level;
-						message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
-						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
-						caption2 << "Score is : " << score;
-						message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
-						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
-						caption3 << "If you want to save score, press space bar";
-						message = TTF_RenderText_Solid(font, caption3.str().c_str(), textColor);
-						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-						SDL_Flip(screen);
-							if(SDL_PollEvent(&event)) {
-							if(event.type == SDL_KEYDOWN) {
-								switch(event.key.keysym.sym) {
-									case SDLK_SPACE:
-										apply_surface(0, 0, background, screen);//background로 덮음
-										temp <<"space bar ok";
-										message = TTF_RenderText_Solid(font, temp.str().c_str(), textColor);
-										apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 100, message, screen);
-										//출력 완료 확인.
-										//아이디 만드는 함수를 만들어서 출력하기
-										save_score(score);
-										//화면은 출력하지만, 계속  비행기와 ball이 뜨고
-										//출력이 끝나면 바로 창이 메인화면이나 게임화면으로 돌아가는것 고치
-									//	SDL_Flip(screen);
-								//	case SDLK_DOWN: quit = true;
-								}
-							}
-							}
 
-//1.싱그모드가 종료하면 결과와 press the space bar를 추력
-//2.스페이스 바를 누르면 랭킹 저장 화면으로 전환
-//3.랭킹 저장 화면에서 아이디를 10글자 이하로 입력받는다
-//4.입력받은 아이디와 score을 받아서 db에 저장한다.
-
-				}
-
-*/
 				if (life <= 0) //life소진시 종료
 				{
 					if (enemy_life != 0)
@@ -843,11 +798,11 @@ void main_game(int selector, int mode)//난이도 선택 변수
 						quit = true;
 
 					}
+				}
 					else //life가 남아있으면 공 초기화후 계속
 					{
 						Die_Count++;
 					}
-				}//if life<=의 조건문 끝.
 			}
 		}
 
