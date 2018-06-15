@@ -445,7 +445,7 @@ bool load_files()
         //item 관련 아이콘추가
         item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
         item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
-        item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
+        item_player_speed = load_image("assets/random_box.png");//아이콘 만들어서 수정하
 
 
 	if (background == NULL)
@@ -684,8 +684,10 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		    }
                     else if(item_num ==2)
 			   apply_surface(item.x, item.y, item_shield, screen);
-                    else if(item_num ==3 || item_num ==4)
+                    else if(item_num ==3 || item_num ==4) {
 			   apply_surface(item.x, item.y, item_player_speed, screen);
+			   SDL_SetColorKey(item_player_speed, SDL_SRCCOLORKEY, SDL_MapRGB(item_player_speed->format, 255, 255, 255));
+		    }
 
 
 		}
