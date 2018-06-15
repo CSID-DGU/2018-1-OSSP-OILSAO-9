@@ -443,7 +443,7 @@ bool load_files()
 
         //item 관련 아이콘추가
         item_life = load_image("assets/life.png");
-        item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
+        item_shield = load_image("assets/shield.png");//아이콘 만들어서 수정하기
         item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
 
 
@@ -809,7 +809,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 		if(SDL_GetTicks() - shield_start >= 1000) shield_check = 0;//쉴드시간 완료하면 shield_check를 0으로 표시.
 		if(SDL_GetTicks() - player_speed_start >= 1500) player_speed_check = 0;
-		if(life_check == 1) {
+		if(life_check == 1 && item_exist != false) {
 			if(life >=3) life_check = -1;
 			else if(life == 2) {life = 3; life_check = -1; }
 			else if(life == 1) {life = 2; life_check = -1; }
