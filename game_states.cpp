@@ -929,9 +929,16 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	if(quit == true && mode == SINGLE_MODE) {
 		int quick_check = 0;
 		save_score(score, quick_check);
-	while(!SDL_PollEvent(&event)) {//입력이 있을때까지 기다린다.
-		;//do nothing
-	}
+	while (true)
+		{
+			if (SDL_PollEvent(&event))
+			{
+				if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE)
+				{
+					break;
+				}
+			}
+		}
 	int id_ok_check = 0;
 	Uint8 *keystates = NULL;
 	std::string id = "";
