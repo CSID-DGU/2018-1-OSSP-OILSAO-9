@@ -8,7 +8,6 @@ SDL_Surface* item_shield;
 SDL_Surface* item_player_speed;
 bool item_exist = false;
 int showRanking();
-int searchRanking();
 void save_score(int score, int quick_check);
 void make_id();
 
@@ -498,7 +497,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	Uint8 *keystates = NULL;
 	int start_time = SDL_GetTicks();
 	int level = 1 + selector; // level 정의
-	int life = 3; // life 추가
+	int life = 1; // life 추가
 	int enemy_life = 3;
 	int current_balls = 0;
 	int i = 0;
@@ -572,7 +571,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			{
 				balls[0].x = player_position;
 				balls[0].y = player_position_y;
-				life = 3;
+				life = 1;
 				Die_Count = 0;
 			}
 		}
@@ -583,7 +582,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		{
 			balls[0].x = player_position;
 			balls[0].y = player_position_y;
-			life = 3;
+			life = 1;
 			Die_Count = 0;
 		}
 
@@ -818,51 +817,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 					}
 					else if(mode == SINGLE_MODE) {
 						game_over(level,score, SINGLE_MODE);
-
 						quit = true;
-						int quick_check = 0;
-						save_score(score, quick_check);
-					while(!SDL_PollEvent(&event)) {//입력이 있을때까지 기다린다.
-						;//do nothing
-					}
-					int id_ok_check = 0;
-
-					string id;
-					int id_count =0;
-
-				//	if(SDL_PollEvent(&event)) {
-						if(event.type == SDL_KEYDOWN) {
-							switch(event.key.keysym.sym) {
-								case SDLK_SPACE: {//make id 창 출력하게 하기.
-
-								while(id_ok_check == 0) {
-
-				/*
-									for(int i=0;i<=10;i++) {
-									std::stringstream caption;
-									string temp = to_string(i);
-									apply_surface(0, 0, background, screen);
-									message = TTF_RenderText_Solid(font, temp.c_str(), textColor);
-									apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 4 - message->h, message, screen);
-									SDL_Flip(screen);
-									}
-
-				*/
-
-								std::stringstream caption;
-								caption << "make id (id must in 10 alpabet";
-								apply_surface(0, 0, background, screen);
-								message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
-								apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
-								if(id_count ==0){
-									message = TTF_RenderText_Solid(font, "no id, yet", textColor);
-									apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
-								}
-								else {
-									apply_surface(0, 0, background, screen);
-									message = TTF_RenderText_Solid(font, id.c_str(), textColor);
-									apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
-								}
 
 					}
 					else //life가 남아있으면 공 초기화후 계속
@@ -993,195 +948,195 @@ void main_game(int selector, int mode)//난이도 선택 변수
 	}
 
 //싱글모드에서 게임이 종료되고, 랭킹에 점수를 저장하기 위한 화면을 구현.
-// 	if(quit == true && mode == SINGLE_MODE) {
-// 		int quick_check = 0;
-// 		save_score(score, quick_check);
-// 	while(!SDL_PollEvent(&event)) {//입력이 있을때까지 기다린다.
-// 		;//do nothing
-// 	}
-// 	int id_ok_check = 0;
-//
-// 	string id;
-// 	int id_count =0;
-//
-// //	if(SDL_PollEvent(&event)) {
-// 		if(event.type == SDL_KEYDOWN) {
-// 			switch(event.key.keysym.sym) {
-// 				case SDLK_SPACE: {//make id 창 출력하게 하기.
-//
-// 				while(id_ok_check == 0) {
-//
-// /*
-// 					for(int i=0;i<=10;i++) {
-// 					std::stringstream caption;
-// 					string temp = to_string(i);
-// 					apply_surface(0, 0, background, screen);
-// 					message = TTF_RenderText_Solid(font, temp.c_str(), textColor);
-// 					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 4 - message->h, message, screen);
-// 					SDL_Flip(screen);
-// 					}
-//
-// */
-//
-// 				std::stringstream caption;
-// 				caption << "make id (id must in 10 alpabet";
-// 				apply_surface(0, 0, background, screen);
-// 				message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
-// 				apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
-// 				if(id_count ==0){
-// 					message = TTF_RenderText_Solid(font, "no id, yet", textColor);
-// 					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
-// 				}
-// 				else {
-// 					apply_surface(0, 0, background, screen);
-// 					message = TTF_RenderText_Solid(font, id.c_str(), textColor);
-// 					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
-// 				}
-// 				SDL_Flip(screen);
-// 				if(SDL_PollEvent(&event)) {
-// 				if(event.type == SDL_KEYDOWN) {
-// 					switch(event.key.keysym.sym) {
-// 						case SDLK_a:
-// 							id[id_count] = 'a';
-// 							id_count++;
-// 						case SDLK_b:
-// 							id[id_count] = 'b';
-// 							id_count++;
-//
-// 						case SDLK_c:
-// 							id[id_count] = 'c';
-// 							id_count++;
-//
-// 						case SDLK_d:
-// 							id[id_count] = 'd';
-// 							id_count++;
-//
-// 						case SDLK_e:
-// 							id[id_count] = 'e';
-// 							id_count++;
-//
-// 						case SDLK_f:
-// 							id[id_count] = 'f';
-// 							id_count++;
-//
-// 						case SDLK_g:
-// 							id[id_count] = 'g';
-// 							id_count++;
-//
-// 						case SDLK_h:
-// 							id[id_count] = 'h';
-// 							id_count++;
-// 						case SDLK_i:
-// 							id[id_count] = 'i';
-// 							id_count++;
-// 						case SDLK_j:
-// 							id[id_count] = 'j';
-// 							id_count++;
-//
-// 						case SDLK_k:
-// 							id[id_count] = 'k';
-// 							id_count++;
-//
-// 						case SDLK_l:
-// 							id[id_count] = 'l';
-// 							id_count++;
-//
-// 						case SDLK_m:
-// 							id[id_count] = 'm';
-// 							id_count++;
-//
-// 						case SDLK_n:
-// 							id[id_count] = 'n';
-// 							id_count++;
-//
-// 						case SDLK_o:
-// 							id[id_count] = 'o';
-// 							id_count++;
-//
-// 						case SDLK_p:
-// 							id[id_count] = 'p';
-// 							id_count++;
-// 						case SDLK_q:
-// 							id[id_count] = 'q';
-// 							id_count++;
-// 						case SDLK_r:
-// 							id[id_count] = 'r';
-// 							id_count++;
-//
-// 						case SDLK_s:
-// 							id[id_count] = 's';
-// 							id_count++;
-//
-// 						case SDLK_t:
-// 							id[id_count] = 't';
-// 							id_count++;
-//
-// 						case SDLK_u:
-// 							id[id_count] = 'u';
-// 							id_count++;
-//
-// 						case SDLK_v:
-// 							id[id_count] = 'v';
-// 							id_count++;
-//
-// 						case SDLK_w:
-// 							id[id_count] = 'w';
-// 							id_count++;
-//
-// 						case SDLK_x:
-// 							id[id_count] = 'x';
-// 							id_count++;
-// 						case SDLK_y:
-// 							id[id_count] = 'y';
-// 							id_count++;
-// 						case SDLK_z:
-// 							id[id_count] = 'z';
-// 							id_count++;
-//
-// 						////////숫자 입력받음
-//
-// 						case SDLK_0:
-// 							id[id_count] = 't';
-// 							id_count++;
-//
-// 						case SDLK_1:
-// 							id[id_count] = 'u';
-// 							id_count++;
-//
-// 						case SDLK_2:
-// 							id[id_count] = 'v';
-// 							id_count++;
-//
-// 						case SDLK_3:
-// 							id[id_count] = 'w';
-// 							id_count++;
-//
-// 						case SDLK_4:
-// 							id[id_count] = 'x';
-// 							id_count++;
-// 						case SDLK_5:
-// 							id[id_count] = 'y';
-// 							id_count++;
-// 						case SDLK_6:
-// 							id[id_count] = 'z';
-// 							id_count++;
-// 						case SDLK_7:
-// 							id[id_count] = 'x';
-// 							id_count++;
-// 						case SDLK_8:
-// 							id[id_count] = 'y';
-// 							id_count++;
-// 						case SDLK_9:
-// 							id[id_count] = 'z';
-// 							id_count++;
-//
-// 					}
-// 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
-// 				}//while문의 괄호 닫
-// 				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
-//
-// 				}//case sdlk_space 괄호 닫음
-// 				case SDLK_DOWN: {}
+	if(quit == true && mode == SINGLE_MODE) {
+		int quick_check = 0;
+		save_score(score, quick_check);
+	while(!SDL_PollEvent(&event)) {//입력이 있을때까지 기다린다.
+		;//do nothing
+	}
+	int id_ok_check = 0;
+
+	string id;
+	int id_count =0;
+
+//	if(SDL_PollEvent(&event)) {
+		if(event.type == SDL_KEYDOWN) {
+			switch(event.key.keysym.sym) {
+				case SDLK_SPACE: {//make id 창 출력하게 하기.
+
+				while(id_ok_check == 0) {
+
+/*
+					for(int i=0;i<=10;i++) {
+					std::stringstream caption;
+					string temp = to_string(i);
+					apply_surface(0, 0, background, screen);
+					message = TTF_RenderText_Solid(font, temp.c_str(), textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 4 - message->h, message, screen);
+					SDL_Flip(screen);
+					}
+
+*/
+
+				std::stringstream caption;
+				caption << "make id (id must in 10 alpabet";
+				apply_surface(0, 0, background, screen);
+				message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+				apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
+				if(id_count ==0){
+					message = TTF_RenderText_Solid(font, "no id, yet", textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
+				}
+				else {
+					apply_surface(0, 0, background, screen);
+					message = TTF_RenderText_Solid(font, id.c_str(), textColor);
+					apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
+				}
+				SDL_Flip(screen);
+				if(SDL_PollEvent(&event)) {
+				if(event.type == SDL_KEYDOWN) {
+					switch(event.key.keysym.sym) {
+						case SDLK_a:
+							id[id_count] = 'a';
+							id_count++;
+						case SDLK_b:
+							id[id_count] = 'b';
+							id_count++;
+
+						case SDLK_c:
+							id[id_count] = 'c';
+							id_count++;
+
+						case SDLK_d:
+							id[id_count] = 'd';
+							id_count++;
+
+						case SDLK_e:
+							id[id_count] = 'e';
+							id_count++;
+
+						case SDLK_f:
+							id[id_count] = 'f';
+							id_count++;
+
+						case SDLK_g:
+							id[id_count] = 'g';
+							id_count++;
+
+						case SDLK_h:
+							id[id_count] = 'h';
+							id_count++;
+						case SDLK_i:
+							id[id_count] = 'i';
+							id_count++;
+						case SDLK_j:
+							id[id_count] = 'j';
+							id_count++;
+
+						case SDLK_k:
+							id[id_count] = 'k';
+							id_count++;
+
+						case SDLK_l:
+							id[id_count] = 'l';
+							id_count++;
+
+						case SDLK_m:
+							id[id_count] = 'm';
+							id_count++;
+
+						case SDLK_n:
+							id[id_count] = 'n';
+							id_count++;
+
+						case SDLK_o:
+							id[id_count] = 'o';
+							id_count++;
+
+						case SDLK_p:
+							id[id_count] = 'p';
+							id_count++;
+						case SDLK_q:
+							id[id_count] = 'q';
+							id_count++;
+						case SDLK_r:
+							id[id_count] = 'r';
+							id_count++;
+
+						case SDLK_s:
+							id[id_count] = 's';
+							id_count++;
+
+						case SDLK_t:
+							id[id_count] = 't';
+							id_count++;
+
+						case SDLK_u:
+							id[id_count] = 'u';
+							id_count++;
+
+						case SDLK_v:
+							id[id_count] = 'v';
+							id_count++;
+
+						case SDLK_w:
+							id[id_count] = 'w';
+							id_count++;
+
+						case SDLK_x:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_y:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_z:
+							id[id_count] = 'z';
+							id_count++;
+
+						////////숫자 입력받음
+
+						case SDLK_0:
+							id[id_count] = 't';
+							id_count++;
+
+						case SDLK_1:
+							id[id_count] = 'u';
+							id_count++;
+
+						case SDLK_2:
+							id[id_count] = 'v';
+							id_count++;
+
+						case SDLK_3:
+							id[id_count] = 'w';
+							id_count++;
+
+						case SDLK_4:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_5:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_6:
+							id[id_count] = 'z';
+							id_count++;
+						case SDLK_7:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_8:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_9:
+							id[id_count] = 'z';
+							id_count++;
+
+					}
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
+				}//while문의 괄호 닫
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
+
+				}//case sdlk_space 괄호 닫음
+				case SDLK_DOWN: {}
 
 			}
 		}
@@ -1349,39 +1304,51 @@ int i=0;
 int showRanking(){
 	bool quit = false;
 	int rankmode = 0;
+	MYSQL *conn =NULL;
+MYSQL* connection=NULL;
+	MYSQL_RES *sql_result;
+MYSQL_ROW sql_row;
+//conn = mysql_init((MYSQL*)NULL);
+std::string DBtoArr[100][3];
+if(!(conn = mysql_init((MYSQL*)NULL))){
+	//초기화 함수. 실패시 나간다.
+	//return -1;
+	exit(1);
+}
+connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
+if(connection==NULL){
+	std::cout << "\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
+	//printf(stderr, "connect error : %s\n", mysql_error(conn));//DB접속 실패.
+	//return -1;
+	//exit(1);
+}
+else std:: cout<<"데이터베이스 접속 완료.."<<std::endl;
+
+
+//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
+int queryStart;
+//connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
+queryStart=mysql_query(connection,"select * from DodgeRank ORDER BY score DESC");
+if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
+else{std::cout<<"쿼리 입력 완료"<<std::endl;}
+
+sql_result=mysql_store_result(connection);
+int j = 0;
+while((sql_row=mysql_fetch_row(sql_result)) != NULL){	//DB 정보를 이차원 배열에 저장
+	DBtoArr[j][0]=j+1;
+	DBtoArr[j][1]=sql_row[1];
+	DBtoArr[j][2]=sql_row[2];
+	j++;
+}
+int rankpage=0;
+int lrank=0;
+mysql_close(conn);
+
 	while(quit == false)
 	{
 		if(SDL_PollEvent(&event))
 		{
-  			MYSQL *conn =NULL;
-			MYSQL* connection=NULL;
-  			MYSQL_RES *sql_result;
-			MYSQL_ROW sql_row;
-			//conn = mysql_init((MYSQL*)NULL);
-			std::string DBtoArr[100][3];
-			if(!(conn = mysql_init((MYSQL*)NULL))){
-				//초기화 함수. 실패시 나간다.
-				//return -1;
-				exit(1);
-			}
-			connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-			if(connection==NULL){
-				std::cout << "\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
-				//printf(stderr, "connect error : %s\n", mysql_error(conn));//DB접속 실패.
-				//return -1;
-				//exit(1);
-			}
-			else std:: cout<<"데이터베이스 접속 완료.."<<std::endl;
 
-
-			//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
-			int queryStart;
-			//connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-			queryStart=mysql_query(connection,"select * from DodgeRank ORDER BY score DESC");
-			if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
-			else{std::cout<<"쿼리 입력 완료"<<std::endl;}
-
-			sql_result=mysql_store_result(connection);
 
 			apply_surface(0,0,background,screen);
 			message=TTF_RenderText_Solid(font, "RANKING", textColor);
@@ -1395,32 +1362,22 @@ int showRanking(){
 			apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h-50,message,screen);
 
 			std::string caption[10];
-			int lrank=0;
 
-			int j = 0;
-			while((sql_row=mysql_fetch_row(sql_result)) != NULL){	//DB 정보를 이차원 배열에 저장
-				DBtoArr[j][0]=j+1;
-				DBtoArr[j][1]=sql_row[1];
-				DBtoArr[j][2]=sql_row[2];
-				j++;
-			}
+
+
+
 			while(lrank < 3) {
-				int rank1 = i+1;
-				caption[i]=std::to_string(rank1);
-				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
+				message = TTF_RenderText_Solid(font, std::to_string(DBtoArr[rankpage+lrank][0]).c_str(), textColor);
 				apply_surface((SCREEN_WIDTH-message->w)/5,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
-				caption[i];
-				caption[i]=DBtoArr[i][1];
-				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
+
+				message = TTF_RenderText_Solid(font, DBtoArr[rankpage+lrank][1].c_str(), textColor);
 				apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
-				caption[i];
-				caption[i]=DBtoArr[i][2];
-				message = TTF_RenderText_Solid(font, caption[i].c_str(), textColor);
+
+				message = TTF_RenderText_Solid(font, DBtoArr[rankpage+lrank][2].c_str(), textColor);
 				apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
-				i++;
 				lrank++;
 				}
-			//}
+				lrank=0;
 			message = TTF_RenderText_Solid(font,  "Search           Exit", textColor);
 			apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/2-message->h+180,message,screen);
 			message2 = TTF_RenderText_Solid(font, "Search           ", textColor);
@@ -1428,16 +1385,9 @@ int showRanking(){
 			message2 = TTF_RenderText_Solid(font, ">", textColor);
 			apply_surface((SCREEN_WIDTH-message->w)/2-8+rankmode*tmp,SCREEN_HEIGHT/2-message->h+180,message2,screen);
 
-	// message = TTF_RenderText_Solid(font, "Game over", textColor);
-	// apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 - message->h, message, screen);
-	// caption2 << "Score is : " << score;
-	// message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
-	// apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
-	// caption << "save the ID & scroe --> space bar";
-	// message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
-	// apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
+
 			SDL_Flip(screen);
-			mysql_close(conn);
+
 
 			if(event.type == SDL_KEYDOWN)
 			{
@@ -1445,56 +1395,34 @@ int showRanking(){
 				{
 				case SDLK_UP:
 				{
-					if(checki < 1)
-					{
-						i = 0;
-						break;
-					}
-					else
-					{
-						i = 0;
-						checki--;
-						i += checki;
-						break;
-					}
+					if(rankpage<=0)break;
+					rankpage--;
+					break;
 				}
 				case SDLK_DOWN:
 				{
-					if(checki > j-7)
-					{
-						i = 0;
-						checki = 0;
-						break;
-					}
-					else
-					{
-						i = 0;
-						checki++;
-						i += checki;
-						break;
-					}
+					if(rankpage>=j)break;
+					rankpage++;
+					break;
 				}
 				case SDLK_RIGHT:
 				{
 					if(rankmode >= 1) break;
 					rankmode++;
-					i = 0;
 					break;
 				}
 				case SDLK_LEFT:
 				{
 					if(rankmode <= 0) break;
 					rankmode--;
-					i = 0;
 					break;
 				}
 				case SDLK_SPACE:
 				{
 					message = NULL;
-					if(rankmode == 0) {printf("searchmode\n");return SEARCH_MODE;}
-					else if(rankmode == 1) {printf("initialmode\n");return INITIAL_MODE;}
-					i = 0;
-					checki = 0;
+					if(rankmode == 0) return SEARCH_MODE;
+					else if(rankmode == 1) return INITIAL_MODE;
+
 					break;
 				}
 				case SDLK_ESCAPE:
@@ -1514,29 +1442,166 @@ int showRanking(){
 	}
 }
 int searchRanking(){
-	bool quit=false;
-		SDL_Flip(screen);
+	std::string id="";
+	int id_count =0;
+while(true){
+//	if(SDL_PollEvent(&event)) {
+		if(event.type == SDL_KEYDOWN) {
+			switch(event.key.keysym.sym) {
 
-		while(quit==false){
-			apply_surface(0,0,background,screen);
-			message=TTF_RenderText_Solid(font, "SEARCH: ", textColor);
-			apply_surface((SCREEN_WIDTH-message->w)/3,SCREEN_HEIGHT/3-message->h,message,screen);
-			SDL_Flip(screen);
+				std::stringstream caption;
+				caption << "SEARCH";
+				apply_surface(0, 0, background, screen);
+				message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
+				apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 - message->h, message, screen);
 
-			int id_ok_check = 0;
-
-			std::string id="";
-			int id_count =0;
-
-		//	if(SDL_PollEvent(&event)) {
+				SDL_Flip(screen);
+				if(SDL_PollEvent(&event)) {
 				if(event.type == SDL_KEYDOWN) {
 					switch(event.key.keysym.sym) {
-						case SDLK_KP_ENTER: {//make id 창 출력하게 하기.
-							return RANKING_MODE;
-							quit=true;
+						case SDLK_a:
+							id[id_count] = 'a';
+							id_count++;
+						case SDLK_b:
+							id[id_count] = 'b';
+							id_count++;
+
+						case SDLK_c:
+							id[id_count] = 'c';
+							id_count++;
+
+						case SDLK_d:
+							id[id_count] = 'd';
+							id_count++;
+
+						case SDLK_e:
+							id[id_count] = 'e';
+							id_count++;
+
+						case SDLK_f:
+							id[id_count] = 'f';
+							id_count++;
+
+						case SDLK_g:
+							id[id_count] = 'g';
+							id_count++;
+
+						case SDLK_h:
+							id[id_count] = 'h';
+							id_count++;
+						case SDLK_i:
+							id[id_count] = 'i';
+							id_count++;
+						case SDLK_j:
+							id[id_count] = 'j';
+							id_count++;
+
+						case SDLK_k:
+							id[id_count] = 'k';
+							id_count++;
+
+						case SDLK_l:
+							id[id_count] = 'l';
+							id_count++;
+
+						case SDLK_m:
+							id[id_count] = 'm';
+							id_count++;
+
+						case SDLK_n:
+							id[id_count] = 'n';
+							id_count++;
+
+						case SDLK_o:
+							id[id_count] = 'o';
+							id_count++;
+
+						case SDLK_p:
+							id[id_count] = 'p';
+							id_count++;
+						case SDLK_q:
+							id[id_count] = 'q';
+							id_count++;
+						case SDLK_r:
+							id[id_count] = 'r';
+							id_count++;
+
+						case SDLK_s:
+							id[id_count] = 's';
+							id_count++;
+
+						case SDLK_t:
+							id[id_count] = 't';
+							id_count++;
+
+						case SDLK_u:
+							id[id_count] = 'u';
+							id_count++;
+
+						case SDLK_v:
+							id[id_count] = 'v';
+							id_count++;
+
+						case SDLK_w:
+							id[id_count] = 'w';
+							id_count++;
+
+						case SDLK_x:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_y:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_z:
+							id[id_count] = 'z';
+							id_count++;
+
+						////////숫자 입력받음
+
+						case SDLK_0:
+							id[id_count] = 't';
+							id_count++;
+
+						case SDLK_1:
+							id[id_count] = 'u';
+							id_count++;
+
+						case SDLK_2:
+							id[id_count] = 'v';
+							id_count++;
+
+						case SDLK_3:
+							id[id_count] = 'w';
+							id_count++;
+
+						case SDLK_4:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_5:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_6:
+							id[id_count] = 'z';
+							id_count++;
+						case SDLK_7:
+							id[id_count] = 'x';
+							id_count++;
+						case SDLK_8:
+							id[id_count] = 'y';
+							id_count++;
+						case SDLK_9:
+							id[id_count] = 'z';
+							id_count++;
+
 					}
-				}
-		}
-	}
-		return RANKING_MODE;
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
+				}//while문의 괄호 닫
+				}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
+
+				}//case sdlk_space 괄호 닫음
+
+
+
+}
+	return INITIAL_MODE;
 }
