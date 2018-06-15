@@ -8,6 +8,7 @@
 #define DB_USER "OILSAO"
 #define DB_PASS "123456789"
 #define DB_NAME "OILSAODODGE"
+#define CHOP(x) x[x.length()-1]=' '
 
 
 
@@ -434,7 +435,7 @@ bool load_files()
 	font = TTF_OpenFont("assets/BMDOHYEON_ttf.ttf", 24);
 	font2 = TTF_OpenFont("assets/RaphLanokFuture.otf", 48);
 
-	player = SDL_LoadBMP("assets/player1.bmp");
+	player = load_image("assets/rabbit.png");
 	player2 = SDL_LoadBMP("assets/player2.bmp");
 	ball = load_image("assets/rocket.bmp");
 	heart = SDL_LoadBMP("assets/heart.bmp");
@@ -864,7 +865,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			if (Die_Count >= 600) Die_Count = 0;
 			if (shield_check == 0) {
 			   apply_surface(player_position - PLAYER_WIDTH / 2, player_position_y - PLAYER_HEIGHT / 2/*SCREEN_HEIGHT - PLAYER_HEIGHT*/, player, screen);//player표시를 이동에 따라 표시
-			SDL_SetColorKey(player, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
+			SDL_SetColorKey(player, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 0, 0, 0));
 			}
 			else if(shield_check == 1) {//shield인 상태에서 표시되는 player 아이콘을 다르게 한다.
 			  apply_surface(player_position - PLAYER_WIDTH / 2, player_position_y - PLAYER_HEIGHT / 2/*SCREEN_HEIGHT - PLAYER_HEIGHT*/, heart, screen);//player표시를 이동에 따라 표시
