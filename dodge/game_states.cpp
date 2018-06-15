@@ -1549,7 +1549,8 @@ int searchRanking(){
 		SDL_Flip(screen);
 		int id_ok_check = 0;
 		Uint8 *keystates = NULL;
-		char id[10]={' ',' ',' ',' ',' ',' ',' ',' ',' ',' '};
+		char* id =new char[10];
+		for(int i=0;i<10;i++)id[i]=' ';
 		int id_count =0;
 
 		MYSQL *conn =NULL;
@@ -1563,14 +1564,7 @@ int searchRanking(){
 			//return -1;
 			exit(1);
 		}
-		connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-		if(connection==NULL){
-			std::cout << "\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
-			//printf(stderr, "connect error : %s\n", mysql_error(conn));//DB접속 실패.
-			//return -1;
-			//exit(1);
-		}
-		else std:: cout<<"데이터베이스 접속 완료.."<<std::endl;
+
 
 
 while(quit==false){
@@ -1585,7 +1579,7 @@ while(quit==false){
 						message=TTF_RenderText_Solid(font, "Search: ", textColor);
 						apply_surface((SCREEN_WIDTH - message->w) / 3, SCREEN_HEIGHT / 3 + message->h, message, screen);
 						message = TTF_RenderText_Solid(font, id, textColor);
-						apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 3 + message->h, message, screen);
+						apply_surface((SCREEN_WIDTH - message->w) / 2+100, SCREEN_HEIGHT / 3 + message->h, message, screen);
 
 				  	SDL_Flip(screen);
 					 if(SDL_PollEvent(&event)) {
@@ -1709,8 +1703,58 @@ while(quit==false){
 					}
 					//Enter 입력시 종료
 					else if(keystates[SDLK_RETURN]){
-						id_ok_check = 1;
-						printf("id 입력 왈뇨");
+						//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
+						std::cout<<id<<"DB 입력"<<std::endl;
+						connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
+						if(connection==NULL){
+							std::cout << "\n데이터 베이스 접속 에러..."<<mysql_error(conn) << std::endl;
+							//printf(stderr, "connect error : %s\n", mysql_error(conn));//DB접속 실패.
+							//return -1;
+							//exit(1);
+						}
+						else std:: cout<<"데이터베이스 접속 완료.."<<std::endl;
+
+						char buff[255];
+						sprintf(buff, "select * from DodgeRank WHERE player_id = '%c%c%c%c%c%c%c%c%c%c'", id[0],id[1],id[2],id[3],id[4],id[5],id[6],id[7], id[8],id[9]);
+
+
+						 int queryStart=mysql_query(connection,buff);
+						if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
+						else{std::cout<<"쿼리 입력 완료"<<std::endl;}
+						sql_result=mysql_store_result(connection);
+						std::string caption[10];
+						int lrank=0;
+
+						int j = 0;
+
+					while(quit==false){
+						apply_surface(0, 0, background, screen);
+						message=TTF_RenderText_Solid(font, "Search RESULT: ", textColor);
+						apply_surface((SCREEN_WIDTH-message->w)/2,SCREEN_HEIGHT/3-message->h,message,screen);
+
+						while((sql_row=mysql_fetch_row(sql_result)) != NULL){	//DB 정보를 이차원 배열에 저장
+							message=TTF_RenderText_Solid(font, sql_row[2], textColor);
+							apply_surface((SCREEN_WIDTH-message->w)/2-50,SCREEN_HEIGHT/2-message->h+50*j,message,screen);
+							message=TTF_RenderText_Solid(font, sql_row[1], textColor);
+							apply_surface((SCREEN_WIDTH-message->w)/2+50,SCREEN_HEIGHT/2-message->h+50*j,message,screen);
+							j++;
+						}
+
+						if(j==0){
+							message = TTF_RenderText_Solid(font, "No Result", textColor);
+							apply_surface((SCREEN_WIDTH-message->w)/2+200,SCREEN_HEIGHT/2-message->h+50*lrank,message,screen);
+						}
+
+							mysql_close(conn);
+							SDL_Flip(screen);
+
+						if(SDL_PollEvent(&event)){
+							quit=true;
+							if(event.type == SDL_KEYDOWN){
+								if(keystates[SDLK_RETURN])
+									return RANKING_MODE;
+						}
+					}}
 						break;
 					}
 					//ESC누르면 종료
@@ -1720,34 +1764,14 @@ while(quit==false){
 
 
 					}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (AAAAAAAA적혀있는)
+
 					}//while문의 괄호 닫음 --> 아이디 입력을 마침
-
-					//id를 입력 받았으면
-					if(id_ok_check == 1){
-					//OILSAODODGE 데이터 베이스에서 랭킹 정보를 불러온다.
-					int queryStart;
-					//connection = mysql_real_connect(conn,DB_HOST,DB_USER, DB_PASS,DB_NAME, 3306, (char *)NULL, 0);
-					char buff[255];
-					sprintf(buff, "select * from DodgeRank WHERE id = '%s'", id);
-					queryStart=mysql_query(connection,buff);
-					if(queryStart!=0){std::cout<<"쿼리 입력 오류"<<std::endl;fprintf (stderr,"Mysql query error : %s", mysql_error(conn));}
-					else{std::cout<<"쿼리 입력 완료"<<std::endl;}
-
-					sql_result=mysql_store_result(connection);
-
-					std::string caption[10];
-					int lrank=0;
-
-					int j = 0;
-
-
-					}
 
 					}//if(event.type == SDL_KEYDOWN)의 괄호 닫기 (make id적혀있는)
 
 					}//case sdlk_space 괄호 닫음
 
 				}
-		mysql_close(conn);
+
 return RANKING_MODE;
  }
