@@ -18,7 +18,7 @@ SDL_Surface* item_player_speed;
 SDL_Surface* item_ball_size;
 SDL_Surface* item_ball_speed;
 bool item_exist = false;
-
+int BALL_SIZE = 10;
 int ranking();
 void save_score(int score, int quick_check);
 void make_id();
