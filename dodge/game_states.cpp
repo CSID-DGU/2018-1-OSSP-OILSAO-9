@@ -699,11 +699,16 @@ void main_game(int selector, int mode)//난이도 선택 변수
                     else if(item_num ==3 || item_num ==4)
 			   apply_surface(item.x, item.y, item_player_speed, screen);
 		    else if(item_num ==5 || item_num ==6)
+		    {
 			   apply_surface(item.x, item.y, item_ball_size, screen);
 			   SDL_SetColorKey(item_ball_size, SDL_SRCCOLORKEY, SDL_MapRGB(item_ball_size->format, 255, 255, 255));
+		    }
 		    else if(item_num ==7 || item_num ==8)
+		    {
 			   apply_surface(item.x, item.y, item_ball_speed, screen);
 			   SDL_SetColorKey(item_ball_speed, SDL_SRCCOLORKEY, SDL_MapRGB(item_ball_speed->format, 255, 255, 255));
+		
+		    }
 		}
 
 
