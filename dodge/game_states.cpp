@@ -9,14 +9,14 @@
 #define DB_PASS "123456789"
 #define DB_NAME "OILSAODODGE"
 
-
-
 void db_insert(int score, std::string id, int id_count);
 
 SDL_Rect item;
 SDL_Surface* item_life;
 SDL_Surface* item_shield;
 SDL_Surface* item_player_speed;
+SDL_Surface* item_ball_size;
+SDL_Surface* item_ball_speed;
 bool item_exist = false;
 
 int ranking();
@@ -444,7 +444,10 @@ bool load_files()
         item_life = SDL_LoadBMP("assets/life.bmp");//라이프 증가 아이템
         item_shield = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기
         item_player_speed = SDL_LoadBMP("assets/enemy_heart.bmp");//아이콘 만들어서 수정하
-
+	//item2 관련 아이콘추가
+	/* item_ball_del = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기 */
+	item_ball_size = load_image("assets/mushroom.png");//아이콘 만들어서 수정하기
+	item_ball_speed = load_image("assets/cabbage.png");//아이콘 만들어서 수정하기
 
 	if (background == NULL)
 	{
@@ -536,6 +539,7 @@ void main_game(int selector, int mode)//난이도 선택 변수
         int time2 = SDL_GetTicks();
         int random2 = 0;
 
+	// item1
 	int shield_check = 0;
 	int shield_start = 0;
 
@@ -544,6 +548,12 @@ void main_game(int selector, int mode)//난이도 선택 변수
 
 	int life_check = 0;
 
+	//item2
+	int ball_size_check = 0;
+	int ball_size_start = 0;
+
+	int ball_speed_check = 0;
+	int ball_speed_start = 0;
 
 	int randomball[MAX_BALLS]; // 떨어지는 볼의 속도를 랜덤하게 조정하기 위해 선언한 배열
 
@@ -559,6 +569,10 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		for (i = 0; i < current_balls; i++)
 		{
 			randomball[i] = (double)rand() / RAND_MAX * (level - 1) + BALL_VELOCITY; // 초기 속도와 레벨 사이의 난수 생성
+			if(ball_speed_check == 1)
+				randomball[i] *= 2;
+			else if(ball_speed_check == -1)
+				randomball[i] *= 0.5;
 		}
 
 		fps_timer = SDL_GetTicks();
@@ -684,8 +698,12 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			   apply_surface(item.x, item.y, item_shield, screen);
                     else if(item_num ==3 || item_num ==4)
 			   apply_surface(item.x, item.y, item_player_speed, screen);
-
-
+		    else if(item_num ==5 || item_num ==6)
+			   apply_surface(item.x, item.y, item_ball_size, screen);
+			   SDL_SetColorKey(item_ball_size, SDL_SRCCOLORKEY, SDL_MapRGB(item_ball_size->format, 255, 255, 255));
+		    else if(item_num ==7 || item_num ==8)
+			   apply_surface(item.x, item.y, item_ball_speed, screen);
+			   SDL_SetColorKey(item_ball_speed, SDL_SRCCOLORKEY, SDL_MapRGB(item_ball_speed->format, 255, 255, 255));
 		}
 
 
@@ -735,6 +753,22 @@ void main_game(int selector, int mode)//난이도 선택 변수
 				if(player_speed_random >0 && player_speed_random <6) player_speed_check = 1;
 				else player_speed_check = -1;
 				player_speed_start = SDL_GetTicks();
+			   }
+			   else if(item_num ==5 || item_num ==6) {
+			   //공 크기 조절 함수
+				int ball_size_random = 0;
+				ball_size_random = rand() % 10 + 1;
+				if(ball_size_random >0 && ball_size_random <6) BALL_SIZE = 15;
+				else BALL_SIZE = 5;
+				ball_size_start = SDL_GetTicks();	
+			   }
+			   else if(item_num ==7 || item_num ==8) {
+			   //공 속도 조절 함수
+				int ball_speed_random = 0;
+				ball_speed_random = rand() % 10 + 1;
+				if(ball_speed_random >0 && ball_speed_random <6) ball_speed_check = 1;
+				else ball_speed_check = -1;
+				ball_speed_start = SDL_GetTicks();
 			   }
 
 			}
@@ -889,7 +923,12 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			}
 
 		}
-
+		if(SDL_GetTicks() - ball_speed_start >= 1500) ball_speed_check = 0;
+		if(SDL_GetTicks() - ball_size_start >= 1500)
+		{
+			BALL_SIZE = 10;
+			ball_size_check = 0;
+		}
 
 
 		std::stringstream caption, caption2;
