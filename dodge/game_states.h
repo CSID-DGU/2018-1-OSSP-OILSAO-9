@@ -8,7 +8,6 @@ const int SCREEN_BPP = 32;
 const int PLAYER_WIDTH = 30;
 const int PLAYER_HEIGHT = 21;
 
-const int BALL_SIZE = 10;
 const int MAX_BALLS = 25;
 
 const int BALL_VELOCITY = 2;
@@ -46,13 +45,15 @@ extern SDL_Surface* ball;
 extern SDL_Surface* item_life;//item life아이콘
 extern SDL_Surface* item_shield;//item shield 아이콘
 extern SDL_Surface* item_player_speed;//item 플레이어 속도 아이콘
+extern SDL_Surface* item_ball_size;//item 공 크기 아이콘
+extern SDL_Surface* item_ball_speed;//item 공 속도 아이콘
 extern SDL_Surface* heart;
 extern SDL_Surface* enemy_heart;
 extern SDL_Surface* item_life;
 extern SDL_Surface* item_shield;
 extern SDL_Surface* item_player_speed;
-
-
+extern SDL_Surface* item_ball_size;
+extern SDL_Surface* item_ball_speed;
 
 extern SDL_Event event;
 extern TTF_Font *font;
