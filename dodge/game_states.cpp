@@ -1,15 +1,11 @@
 #include "game_states.h"
 #include <string.h>
-//#include <time.h>
-//#include <mysql.h>
-//#include "/usr/include/mysql/mysql.h"
+
 
 #define DB_HOST "oilsaododge.czrlcuz3fj2o.ap-northeast-2.rds.amazonaws.com"
 #define DB_USER "OILSAO"
 #define DB_PASS "123456789"
 #define DB_NAME "OILSAODODGE"
-#define CHOP(x) x[x.length()-1]=' '
-
 
 
 void db_insert(int score, std::string id, int id_count);
