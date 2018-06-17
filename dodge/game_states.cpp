@@ -65,7 +65,7 @@ int select_mode()
 		if (SDL_PollEvent(&event))
 		{
 			apply_surface(0, 0, background, screen);
-			title_message = TTF_RenderText_Solid(font2, "Awesome Dodge", textColor);
+			title_message = TTF_RenderText_Solid(font2, "Rabbit Dream", textColor);
 			apply_surface((640 - title_message->w) / 2, 80, title_message, screen);
 			message = TTF_RenderText_Solid(font, "Press space to start, esc key to quit", textColor);
 			apply_surface((640 - message->w) / 2, 480 / 2 - message->h, message, screen);
@@ -126,7 +126,7 @@ int select_level()
 		{
 			message = TTF_RenderText_Solid(font, "Press space to start, esc key to quit", textColor);
 			apply_surface(0, 0, background, screen);
-			title_message = TTF_RenderText_Solid(font2, "Awesome Dodge", textColor);
+			title_message = TTF_RenderText_Solid(font2, "Rabbit Dream", textColor);
 			apply_surface((640 - title_message->w) / 2, 100, title_message, screen);
 			apply_surface((640 - message->w) / 2, 480 / 2 - message->h, message, screen);
 			message = TTF_RenderText_Solid(font, "level 1         level 2        level 3", textColor);
@@ -399,7 +399,7 @@ bool init()
 		return false;
 	}
 	srand(time(NULL));
-	SDL_WM_SetCaption("Awesome", NULL);
+	SDL_WM_SetCaption("Rabbit Dream", NULL);
 
 	return true;
 }
@@ -1489,7 +1489,7 @@ int showRanking(){
 				}
 				case SDLK_DOWN:
 				{
-					if(checki > j-7)
+					if(checki > j-9)
 					{
 						i = 0;
 						checki = 0;
