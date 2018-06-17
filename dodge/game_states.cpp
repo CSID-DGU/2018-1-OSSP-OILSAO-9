@@ -415,7 +415,7 @@ bool load_files()
 	player2 = SDL_LoadBMP("assets/player2.bmp");
 	ball = load_image("assets/ball.png");
 	heart = load_image("assets/life.png");
-	enemy_heart = SDL_LoadBMP("assets/enemy_heart.bmp");
+	enemy_heart = load_image("assets/random_box.png");
 
         //item 관련 아이콘추가
         item_life = load_image("assets/life.png");//라이프 증가 아이템
@@ -673,15 +673,16 @@ void main_game(int selector, int mode)//난이도 선택 변수
 		    //item_num별로 다른 아이템 아이콘을 출력한다.
 		    if(item_num == 1){
 			   apply_surface(item.x, item.y, item_life, screen);
-			   SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
+			   SDL_SetColorKey(item_life, SDL_SRCCOLORKEY, SDL_MapRGB(item_life->format, 255, 255, 255));
 		    }
                     else if(item_num ==2){
 			   apply_surface(item.x, item.y, item_shield, screen);
-			   SDL_SetColorKey(item_shield, SDL_SRCCOLORKEY, SDL_MapRGB(player->format, 255, 255, 255));
+			   SDL_SetColorKey(item_shield, SDL_SRCCOLORKEY, SDL_MapRGB(item_shield->format, 255, 255, 255));
 }
-                    else if(item_num ==3 || item_num ==4)
+                    else if(item_num ==3 || item_num ==4){
 			   apply_surface(item.x, item.y, item_player_speed, screen);
-
+			     SDL_SetColorKey(item_player_speed, SDL_SRCCOLORKEY, SDL_MapRGB(item_player_speed->format, 255, 255, 255));
+		    }
 		  else if(item_num ==5 || item_num ==6)
 		    {
 			   apply_surface(item.x, item.y, item_ball_size, screen);
