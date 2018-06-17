@@ -415,12 +415,12 @@ bool load_files()
 	player2 = SDL_LoadBMP("assets/player2.bmp");
 	ball = load_image("assets/ball.png");
 	heart = load_image("assets/life.png");
-	enemy_heart = load_image("assets/random_box.png");
+	enemy_heart = SDL_LoadBMP("assets/enemy_heart.bmp");
 
         //item 관련 아이콘추가
         item_life = load_image("assets/life.png");//라이프 증가 아이템
         item_shield = load_image("assets/shield.png");//아이콘 만들어서 수정하기
-        item_player_speed = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하
+        item_player_speed = ;load_image("assets/random_box.png");//아이콘 만들어서 수정하
 	item_ball_size = load_image("assets/mushroom.png");//아이콘 만들어서 수정하기
 	item_ball_speed = load_image("assets/cabbage.png");//아이콘 만들어서 수정하기
 
