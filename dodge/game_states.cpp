@@ -1254,7 +1254,7 @@ void save_score(int score, int quit_check) {
 	caption2 << "Score is : " << score;
 	message = TTF_RenderText_Solid(font, caption2.str().c_str(), textColor);
 	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h + 50, message, screen);
-	caption << "save the ID & scroe --> space bar";
+	caption << "save the ID & score --> space bar";
 	message = TTF_RenderText_Solid(font, caption.str().c_str(), textColor);
 	apply_surface((SCREEN_WIDTH - message->w) / 2, SCREEN_HEIGHT / 2 + message->h, message, screen);
 //	caption3 << "quit --> ESC";
@@ -1387,7 +1387,7 @@ int showRanking(){
   			MYSQL_RES *sql_result;
 			MYSQL_ROW sql_row;
 			//conn = mysql_init((MYSQL*)NULL);
-			std::string DBtoArr[100][3];
+			std::string DBtoArr[1000][3];
 			if(!(conn = mysql_init((MYSQL*)NULL))){
 				//초기화 함수. 실패시 나간다.
 				//return -1;
@@ -1474,7 +1474,7 @@ int showRanking(){
 				{
 				case SDLK_UP:
 				{
-					if(checki < 1)
+					if(checki < 3)
 					{
 						i = 0;
 						break;
@@ -1482,7 +1482,7 @@ int showRanking(){
 					else
 					{
 						i = 0;
-						checki--;
+						checki -= 3;
 						i += checki;
 						break;
 					}
@@ -1498,7 +1498,7 @@ int showRanking(){
 					else
 					{
 						i = 0;
-						checki++;
+						checki += 3;
 						i += checki;
 						break;
 					}
