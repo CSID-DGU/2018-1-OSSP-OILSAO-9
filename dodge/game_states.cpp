@@ -424,6 +424,10 @@ bool load_files()
 	item_ball_size = load_image("assets/mushroom.png");//아이콘 만들어서 수정하기
 	item_ball_speed = load_image("assets/cabbage.png");//아이콘 만들어서 수정하기
 
+	//item2 관련 아이콘추가
+	/* item_ball_del = SDL_LoadBMP("assets/enemy_ball.bmp");//아이콘 만들어서 수정하기 */
+	item_ball_size = load_image("assets/mushroom.png");//아이콘 만들어서 수정하기
+	item_ball_speed = load_image("assets/cabbage.png");//아이콘 만들어서 수정하기
 
 	if (background == NULL)
 	{
@@ -864,6 +868,13 @@ void main_game(int selector, int mode)//난이도 선택 변수
 			apply_surface(580, 60, enemy_heart, screen);
 			}
 
+		}
+
+		if(SDL_GetTicks() - ball_speed_start >= 1500) ball_speed_check = 0;
+		if(SDL_GetTicks() - ball_size_start >= 1500)
+		{
+			BALL_SIZE = 10;
+			ball_size_check = 0;
 		}
 
 
